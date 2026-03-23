@@ -2,135 +2,111 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 
 const slideUp = {
-  hidden: { y: "110%", opacity: 0 },
-  show: (i = 0) => ({
-    y: 0, opacity: 1,
-    transition: { duration: 0.95, ease: [0.16, 1, 0.3, 1], delay: 0.2 + i * 0.13 },
-  }),
+    hidden: { y: "110%", opacity: 0 },
+    show: (i = 0) => ({
+        y: 0, opacity: 1,
+        transition: { duration: 0.95, ease: [0.16, 1, 0.3, 1], delay: 0.2 + i * 0.13 },
+    }),
 };
 
 const fade = {
-  hidden: { opacity: 0, y: 14 },
-  show: (i = 0) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.7, ease: "easeOut", delay: 0.75 + i * 0.1 },
-  }),
+    hidden: { opacity: 0, y: 14 },
+    show: (i = 0) => ({
+        opacity: 1, y: 0,
+        transition: { duration: 0.7, ease: "easeOut", delay: 0.75 + i * 0.1 },
+    }),
 };
 
 // Doubled list so seamless loop works at any screen width
 const MARQUEE_ITEMS = [
-  "Full Stack Developer", "React · Next.js · Node.js", "Open to Work",
-  "UI / UX Enthusiast",  "TypeScript · PostgreSQL",  "Building Cool Stuff",
-  "Full Stack Developer", "React · Next.js · Node.js", "Open to Work",
-  "UI / UX Enthusiast",  "TypeScript · PostgreSQL",  "Building Cool Stuff",
+    "Full Stack Developer", "React · Next.js · Node.js", "Open to Work",
+    "UI / UX Enthusiast", "TypeScript · PostgreSQL", "Building Cool Stuff",
+    "AI Engineer", "Python · FastAPI", "Discovering New Things",
 ];
 
 function Marquee() {
-  return (
-    <div style={{ overflow: "hidden", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-      <div style={{ display: "flex", whiteSpace: "nowrap", animation: "marquee-scroll 32s linear infinite", willChange: "transform" }}>
-        {MARQUEE_ITEMS.map((item, i) => (
-          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "20px", padding: "13px 24px", fontSize: "10px", letterSpacing: "0.26em", textTransform: "uppercase", color: "rgba(255,255,255,0.22)", fontFamily: "var(--font-body)", flexShrink: 0 }}>
-            {item}
-            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(59,130,246,0.6)", flexShrink: 0 }} />
-          </span>
-        ))}
-      </div>
-    </div>
-  );
+    return (
+        <div style={{ overflow: "hidden", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{ display: "flex", whiteSpace: "nowrap", animation: "marquee-scroll 32s linear infinite", willChange: "transform" }}>
+                {MARQUEE_ITEMS.map((item, i) => (
+                    <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "20px", padding: "13px 24px", fontSize: "10px", letterSpacing: "0.26em", textTransform: "uppercase", color: "rgba(255,255,255,0.22)", fontFamily: "var(--font-body)", flexShrink: 0 }}>
+                        {item}
+                        <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(59,130,246,0.6)", flexShrink: 0 }} />
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export function Hero() {
-  const sectionRef = useRef(null);
-  const { scrollY } = useScroll();
-  // Disable parallax on small screens — too aggressive on mobile
-  const nameY = useTransform(scrollY, [0, 700], [0, -70]);
+    const sectionRef = useRef(null);
+    const { scrollY } = useScroll();
+    // Disable parallax on small screens — too aggressive on mobile
+    const nameY = useTransform(scrollY, [0, 700], [0, -70]);
 
-  return (
-    <section ref={sectionRef} id="home" style={{ position: "relative", minHeight: "100svh", display: "flex", flexDirection: "column", background: "#080808", overflow: "hidden" }}>
+    return (
+        <section ref={sectionRef} id="home" style={{ position: "relative", minHeight: "100svh", display: "flex", flexDirection: "column", background: "#080808", overflow: "hidden" }}>
 
-      {/* Ambient glow */}
-      <div style={{ position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)", width: "90vw", height: "50vh", background: "radial-gradient(ellipse at center, rgba(59,130,246,0.05) 0%, transparent 68%)", pointerEvents: "none", zIndex: 0 }} />
+            {/* Ambient glow */}
+            <div style={{ position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)", width: "90vw", height: "50vh", background: "radial-gradient(ellipse at center, rgba(59,130,246,0.05) 0%, transparent 68%)", pointerEvents: "none", zIndex: 0 }} />
 
-      {/* ── Top bar ── */}
-      <motion.div variants={fade} initial="hidden" animate="show" custom={0}
-        style={{ position: "relative", zIndex: 10, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "clamp(14px,3vw,26px) clamp(16px,5vw,48px)" }}>
-        <span style={{ fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.22)", fontFamily: "var(--font-body)" }}>
-          Portfolio · 2026
-        </span>
-        <span style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(74,222,128,0.85)", fontFamily: "var(--font-body)" }}>
-          <span className="hero-status-dot" />
-          Available for work
-        </span>
-      </motion.div>
+            {/* ── Top bar ── */}
+            <motion.div variants={fade} initial="hidden" animate="show" custom={0}
+                style={{ position: "relative", zIndex: 10, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "clamp(14px,3vw,26px) clamp(16px,5vw,48px)" }}>
+                <span style={{ fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.22)", fontFamily: "var(--font-body)" }}>
+                    Portfolio · 2026
+                </span>
+                <span style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(74,222,128,0.85)", fontFamily: "var(--font-body)" }}>
+                    <span className="hero-status-dot" />
+                    Available for work
+                </span>
+            </motion.div>
 
-      {/* ── Central content ── */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", zIndex: 5, padding: "clamp(24px,5vw,60px) clamp(16px,5vw,40px)", textAlign: "center" }}>
+            {/* ── Central content ── */}
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", zIndex: 5, padding: "clamp(24px,5vw,60px) clamp(16px,5vw,40px)", textAlign: "center" }}>
 
-        {/* Giant name — parallax on desktop only */}
-        <motion.div style={{ y: nameY }}>
-          {/* DIVY — solid */}
-          <div style={{ overflow: "hidden", lineHeight: 0.86 }}>
-            <motion.h1 variants={slideUp} initial="hidden" animate="show" custom={1}
-              style={{ fontFamily: "var(--font-display)", fontSize: "clamp(4.2rem,20vw,16rem)", fontWeight: 800, lineHeight: 0.86, letterSpacing: "-0.035em", color: "#ffffff", margin: 0, display: "block" }}>
-              DIVY
-            </motion.h1>
-          </div>
-          {/* BAROT. — outline */}
-          <div style={{ overflow: "hidden", lineHeight: 0.86, marginTop: "clamp(3px,0.5vw,8px)" }}>
-            <motion.h1 variants={slideUp} initial="hidden" animate="show" custom={2}
-              style={{ fontFamily: "var(--font-display)", fontSize: "clamp(4.2rem,20vw,16rem)", fontWeight: 800, lineHeight: 0.86, letterSpacing: "-0.035em", WebkitTextStroke: "clamp(1.5px,0.2vw,3.5px) rgba(255,255,255,0.38)", color: "transparent", margin: 0, display: "block" }}>
-              BAROT.
-            </motion.h1>
-          </div>
-        </motion.div>
+                {/* Giant name — parallax on desktop only */}
+                <motion.div style={{ y: nameY }}>
+                    {/* DIVY — solid */}
+                    <div style={{ overflow: "hidden", lineHeight: 0.86 }}>
+                        <motion.h1 variants={slideUp} initial="hidden" animate="show" custom={1}
+                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(4.2rem,20vw,16rem)", fontWeight: 800, lineHeight: 0.86, letterSpacing: "-0.035em", color: "#ffffff", margin: 0, display: "block" }}>
+                            DIVY
+                        </motion.h1>
+                    </div>
+                    {/* BAROT. — outline */}
+                    <div style={{ overflow: "hidden", lineHeight: 0.86, marginTop: "clamp(3px,0.5vw,8px)" }}>
+                        <motion.h1 variants={slideUp} initial="hidden" animate="show" custom={2}
+                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(4.2rem,20vw,16rem)", fontWeight: 800, lineHeight: 0.86, letterSpacing: "-0.035em", WebkitTextStroke: "clamp(1.5px,0.2vw,3.5px) rgba(255,255,255,0.38)", color: "transparent", margin: 0, display: "block" }}>
+                            BAROT.
+                        </motion.h1>
+                    </div>
+                </motion.div>
 
-        {/* Role line */}
-        <div style={{ overflow: "hidden", marginTop: "clamp(20px,3.5vw,36px)" }}>
-          <motion.p variants={slideUp} initial="hidden" animate="show" custom={3}
-            style={{ fontFamily: "var(--font-body)", fontSize: "clamp(12px,1.6vw,17px)", fontWeight: 300, color: "rgba(255,255,255,0.4)", letterSpacing: "0.04em", margin: 0, lineHeight: 1.6 }}>
-            Full Stack Developer ·{" "}
-            <span style={{ color: "rgba(59,130,246,0.85)" }}>React</span>{" · "}
-            <span style={{ color: "rgba(59,130,246,0.85)" }}>Node.js</span>{" · "}
-            <span style={{ color: "rgba(59,130,246,0.85)" }}>TypeScript</span>
-          </motion.p>
-        </div>
+                {/* Role line */}
+                <div style={{ overflow: "hidden", marginTop: "clamp(20px,3.5vw,36px)" }}>
+                    <motion.p variants={slideUp} initial="hidden" animate="show" custom={3}
+                        style={{ fontFamily: "var(--font-body)", fontSize: "clamp(12px,1.6vw,17px)", fontWeight: 300, color: "rgba(255,255,255,0.4)", letterSpacing: "0.04em", margin: 0, lineHeight: 1.6 }}>
+                        AI Engineer · Full Stack Developer
+                    </motion.p>
+                </div>
 
-        {/* CTAs — stack on mobile */}
-        <motion.div variants={fade} initial="hidden" animate="show" custom={2}
-          style={{ display: "flex", gap: "clamp(8px,2vw,14px)", marginTop: "clamp(36px,6vw,56px)", flexWrap: "wrap", justifyContent: "center", width: "100%" }}>
-          <a href="#projects" className="hero-cta-primary">View Work</a>
-          <a href="mailto:workwithdivy@gmail.com" className="hero-cta-secondary">Get in Touch</a>
-        </motion.div>
-      </div>
+                {/* CTAs — stack on mobile */}
+                <motion.div variants={fade} initial="hidden" animate="show" custom={2}
+                    style={{ display: "flex", gap: "clamp(8px,2vw,14px)", marginTop: "clamp(36px,6vw,56px)", flexWrap: "wrap", justifyContent: "center", width: "100%" }}>
+                    <a href="#projects" className="hero-cta-primary">View Work</a>
+                    <a href="mailto:workwithdivy@gmail.com" className="hero-cta-secondary">Get in Touch</a>
+                </motion.div>
+            </div>
 
-      {/* ── Bottom bar ── */}
-      <motion.div variants={fade} initial="hidden" animate="show" custom={4}
-        style={{ position: "relative", zIndex: 10, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", padding: "clamp(14px,2.5vw,22px) clamp(16px,5vw,48px)", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+            {/* ── Marquee ── */}
+            <motion.div variants={fade} initial="hidden" animate="show" custom={5}>
+                <Marquee />
+            </motion.div>
 
-        {/* Left */}
-        <span style={{ fontSize: "9px", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.16)", fontFamily: "var(--font-body)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-          Dev since 2021
-        </span>
-
-        {/* Right */}
-        <div style={{ textAlign: "right" }}>
-          <a href="#contact" className="hero-hire-link">
-            Hire me
-            <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-              <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </div>
-      </motion.div>
-
-      {/* ── Marquee ── */}
-      <motion.div variants={fade} initial="hidden" animate="show" custom={5}>
-        <Marquee />
-      </motion.div>
-
-      {/* ── Scoped styles ── */}
-      <style>{`
+            {/* ── Scoped styles ── */}
+            <style>{`
         .hero-status-dot {
           width: 6px; height: 6px; border-radius: 50%;
           background: #4ade80;
@@ -206,6 +182,6 @@ export function Hero() {
           50%       { opacity: 0.8; transform: scaleY(1.12); }
         }
       `}</style>
-    </section>
-  );
+        </section>
+    );
 }

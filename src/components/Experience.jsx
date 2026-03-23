@@ -98,14 +98,16 @@ export function Experience() {
         className="text-blue-500 text-xs uppercase tracking-[0.28em] mb-2">
         The Journey
       </motion.p>
-      <motion.h2 initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}
-        style={{ fontFamily: "var(--font-display)" }}
-        className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-12 md:mb-16 leading-tight">
-        Experience &amp;{" "}
-        <span style={{ WebkitTextStroke: "clamp(1px,0.12vw,2px) rgba(59,130,246,0.45)", color: "transparent" }}>
-          Education
-        </span>
-      </motion.h2>
+      <motion.h2 
+            initial={{ opacity: 0, y: 14 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6 }} 
+            viewport={{ once: true }}
+            style={{ fontFamily: "var(--font-display)" }}
+            className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight tracking-tight mb-7"
+          >
+            Experience & <br className="hidden md:block" /> Education.
+          </motion.h2>
 
       <div className="flex flex-col gap-6 sm:gap-8">
         {experiences.map((exp, i) => (

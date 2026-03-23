@@ -238,19 +238,16 @@ export function Skills() {
         >
           What I Work With
         </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65 }}
-          viewport={{ once: true }}
-          style={{ fontFamily: "var(--font-display)" }}
-          className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight"
-        >
-          Skills &{" "}
-          <span style={{ WebkitTextStroke: "clamp(1px,0.12vw,2px) rgba(59,130,246,0.45)", color: "transparent" }}>
-            Technologies.
-          </span>
-        </motion.h2>
+        <motion.h2 
+            initial={{ opacity: 0, y: 14 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6 }} 
+            viewport={{ once: true }}
+            style={{ fontFamily: "var(--font-display)" }}
+            className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight tracking-tight"
+          >
+            Skills & <br className="hidden md:block" /> Technologies.
+          </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
