@@ -1,13 +1,11 @@
 import { useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
-// ─── Data ────────────────────────────────────────────────────────────────────
-
 const skillCategories = [
   {
     label: "Frontend",
     icon: "◈",
-    accent: { r: 59, g: 130, b: 246 },        // blue-500
+    accent: { r: 59, g: 130, b: 246 },
     accentCss: "rgba(59,130,246,",
     borderActive: "rgba(59,130,246,0.35)",
     skills: [
@@ -21,7 +19,7 @@ const skillCategories = [
   {
     label: "Backend",
     icon: "◉",
-    accent: { r: 52, g: 211, b: 153 },         // emerald-400
+    accent: { r: 52, g: 211, b: 153 },
     accentCss: "rgba(52,211,153,",
     borderActive: "rgba(52,211,153,0.35)",
     skills: [
@@ -35,7 +33,7 @@ const skillCategories = [
   {
     label: "Database",
     icon: "◬",
-    accent: { r: 167, g: 139, b: 250 },        // violet-400
+    accent: { r: 167, g: 139, b: 250 },
     accentCss: "rgba(167,139,250,",
     borderActive: "rgba(167,139,250,0.35)",
     skills: [
@@ -49,7 +47,7 @@ const skillCategories = [
   {
     label: "Tools & DevOps",
     icon: "◎",
-    accent: { r: 251, g: 191, b: 36 },         // amber-400
+    accent: { r: 251, g: 191, b: 36 },
     accentCss: "rgba(251,191,36,",
     borderActive: "rgba(251,191,36,0.35)",
     skills: [
@@ -61,8 +59,6 @@ const skillCategories = [
     ],
   },
 ];
-
-// ─── Card Spotlight (mouse-following radial glow) ─────────────────────────────
 
 function SpotlightCard({ category, index }) {
   const cardRef = useRef(null);
@@ -88,21 +84,38 @@ function SpotlightCard({ category, index }) {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => { setHovered(false); setMouse({ x: -999, y: -999 }); }}
-      className="relative overflow-hidden rounded-3xl border border-white/8 bg-zinc-950 p-6 md:p-8 flex flex-col gap-6 transition-colors duration-300"
-      style={{
-        borderColor: hovered ? category.borderActive : undefined,
-      }}
+      className="sk-card"
+      style={{ borderColor: hovered ? category.borderActive : undefined }}
     >
-      {/* ── Spotlight Glow ── */}
+      {/* ── LIQUID GLASS BACKGROUND LAYERS ── */}
+
+      {/* 1. Ambient tint glow — bleeds outside, color-tinted per card */}
       <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+        className="sk-gl-ambient"
+        style={{
+          opacity: hovered ? 1 : 0.4,
+          background: `radial-gradient(ellipse at 65% 30%, rgba(${r},${g},${b},0.18) 0%, rgba(${r},${g},${b},0.04) 60%, transparent 100%)`,
+        }}
+      />
+
+      {/* 2. Frosted glass surface */}
+      <div className="sk-gl-frost" />
+
+      {/* 3. Cursor-following spotlight (original behaviour, preserved) */}
+      <div
+        className="sk-gl-spotlight"
         style={{
           opacity: hovered ? 1 : 0,
           background: `radial-gradient(320px circle at ${mouse.x}px ${mouse.y}px, rgba(${r},${g},${b},0.13) 0%, transparent 70%)`,
         }}
       />
 
-      {/* ── Corner ambient blob ── */}
+      {/* 4. Top rim light — the Apple "edge catch" */}
+      <div className="sk-gl-rim" />
+
+      {/* ── Original card content (100% unchanged) ── */}
+
+      {/* Corner ambient blob */}
       <div
         className="pointer-events-none absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[60px] transition-opacity duration-500"
         style={{
@@ -111,7 +124,7 @@ function SpotlightCard({ category, index }) {
         }}
       />
 
-      {/* ── Header ── */}
+      {/* Header */}
       <div className="relative z-10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="text-2xl select-none" style={{ color: `rgba(${r},${g},${b},0.9)` }}>
@@ -136,7 +149,7 @@ function SpotlightCard({ category, index }) {
         </span>
       </div>
 
-      {/* ── Skill bars ── */}
+      {/* Skill bars */}
       <div className="relative z-10 flex flex-col gap-3">
         {category.skills.map((skill, si) => (
           <div
@@ -196,7 +209,7 @@ function SpotlightCard({ category, index }) {
         ))}
       </div>
 
-      {/* ── Chip tags ── */}
+      {/* Chip tags */}
       <div className="relative z-10 flex flex-wrap gap-2 pt-1 border-t border-white/[0.05]">
         {category.skills.map((skill, si) => (
           <motion.span
@@ -217,11 +230,93 @@ function SpotlightCard({ category, index }) {
           </motion.span>
         ))}
       </div>
+
+      <style>{`
+        /* ── Card shell — glass instead of solid zinc ── */
+        .sk-card {
+          position: relative;
+          overflow: hidden;
+          border-radius: 1.5rem; /* rounded-3xl */
+          border: 1px solid rgba(255,255,255,0.1);
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          transition: border-color 0.3s ease, box-shadow 0.35s ease;
+          box-shadow:
+            0 1px 0 0 rgba(255,255,255,0.1) inset,
+            0 20px 56px rgba(0,0,0,0.28),
+            0 4px 14px rgba(0,0,0,0.16);
+        }
+        @media (min-width: 768px) {
+          .sk-card { padding: 2rem; }
+        }
+        .sk-card:hover {
+          box-shadow:
+            0 1px 0 0 rgba(255,255,255,0.16) inset,
+            0 28px 72px rgba(0,0,0,0.34),
+            0 8px 22px rgba(0,0,0,0.2);
+        }
+
+        /* 1. Ambient tint */
+        .sk-gl-ambient {
+          position: absolute;
+          inset: -24px;
+          pointer-events: none;
+          z-index: 0;
+          filter: blur(28px);
+          transition: opacity 0.4s ease;
+          border-radius: 999px;
+        }
+
+        /* 2. Frosted glass surface */
+        .sk-gl-frost {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 1;
+          background:
+            linear-gradient(
+              135deg,
+              rgba(255,255,255,0.07) 0%,
+              rgba(255,255,255,0.025) 50%,
+              rgba(255,255,255,0.055) 100%
+            );
+          backdrop-filter: blur(28px) saturate(160%);
+          -webkit-backdrop-filter: blur(28px) saturate(160%);
+        }
+
+        /* 3. Cursor spotlight */
+        .sk-gl-spotlight {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 2;
+          transition: opacity 0.3s ease;
+        }
+
+        /* 4. Top rim light */
+        .sk-gl-rim {
+          position: absolute;
+          top: 0;
+          left: 8%;
+          right: 8%;
+          height: 1px;
+          pointer-events: none;
+          z-index: 3;
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255,255,255,0.4) 25%,
+            rgba(255,255,255,0.6) 50%,
+            rgba(255,255,255,0.4) 75%,
+            transparent 100%
+          );
+        }
+      `}</style>
     </motion.div>
   );
 }
-
-// ─── Section ─────────────────────────────────────────────────────────────────
 
 export function Skills() {
   return (
@@ -238,16 +333,16 @@ export function Skills() {
         >
           What I Work With
         </motion.p>
-        <motion.h2 
-            initial={{ opacity: 0, y: 14 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.6 }} 
-            viewport={{ once: true }}
-            style={{ fontFamily: "var(--font-display)" }}
-            className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight tracking-tight"
-          >
-            Skills & <br className="hidden md:block" /> Technologies.
-          </motion.h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          style={{ fontFamily: "var(--font-display)" }}
+          className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight tracking-tight"
+        >
+          Skills &amp; <br className="hidden md:block" /> Technologies.
+        </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -276,7 +371,7 @@ export function Skills() {
         className="text-white/20 text-xs mt-10 text-center tracking-wider"
         style={{ fontFamily: "var(--font-body)" }}
       >
-        Always learning · Currently exploring Three.js & WebGL
+        Always learning · Currently exploring Three.js &amp; WebGL
       </motion.p>
     </section>
   );
