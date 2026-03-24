@@ -21,9 +21,18 @@ export function Footer() {
         if (!href.startsWith("#")) return;
         e.preventDefault();
         const targetId = href.replace("#", "");
-        const element = document.getElementById(targetId);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
+        
+        // Use Lenis for slower, smoother scroll if available
+        if (window.lenis) {
+            window.lenis.scrollTo(href, {
+                duration: 2.5,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            });
+        } else {
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
         }
     };
 
