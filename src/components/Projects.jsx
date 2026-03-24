@@ -41,7 +41,7 @@ const projects = [
     description: "First personal portfolio built with React and Framer Motion. Where it all started. A highly interactive React portfolio designed to demonstrate real-world UI thinking and clean component architecture",
     tech: ["React", "Framer", "Tailwind", "Motion", "GSAP"],
     github: "https://github.com/divydoesnotcode/My-portfolio",
-    vercel: "https://my-portfolio-livid-beta.vercel.app/", // example
+    vercel: "https://divydoesnotcode-portfolio-livid-beta.vercel.app/", // example
     year: "2024",
     tint: { r: 122, g: 106, b: 83 }, // Warm Stone/Taupe
     spotColor: "rgba(122,106,83,",
