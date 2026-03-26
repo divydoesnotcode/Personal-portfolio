@@ -315,7 +315,7 @@ export const NavbarButton = ({
     dark:
       "bg-black text-white shadow-lg hover:shadow-xl focus:ring-stone-700",
   };
-
+   
   const Component = Tag as any;
   return (
     <Component
