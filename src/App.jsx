@@ -14,6 +14,7 @@ const Projects = lazy(() => import('./components/Projects').then(m => ({ default
 const Skills = lazy(() => import('./components/Skills').then(m => ({ default: m.Skills })))
 const Experience = lazy(() => import('./components/Experience').then(m => ({ default: m.Experience })))
 const Contact = lazy(() => import('./components/Contact').then(m => ({ default: m.Contact })))
+const ResumeDownload = lazy(() => import('./components/ui/ResumeDownload').then(m => ({ default: m.ResumeDownload })))
 const Footer = lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })))
 
 function isPointerDevice() {
@@ -65,6 +66,7 @@ function App() {
                 <Skills />
                 <Experience />
                 <Contact />
+                <ResumeDownload />
               </Suspense>
             </main>
             <Suspense fallback={null}>

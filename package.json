@@ -12,7 +12,7 @@
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@radix-ui/react-hover-card": "^1.1.15",
-    "@tabler/icons-react": "^3.36.1",
+    "@tabler/icons-react": "^3.40.0",
     "@tailwindcss/vite": "^4.1.18",
     "clsx": "^2.1.1",
     "gsap": "^3.14.2",
@@ -21,6 +21,7 @@
     "motion": "^12.38.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-dropzone": "^15.0.0",
     "react-router-dom": "^7.12.0",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.1.18"

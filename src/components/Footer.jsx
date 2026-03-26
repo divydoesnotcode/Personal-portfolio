@@ -47,22 +47,42 @@ export function Footer() {
                 viewport={{ once: true }}
                 className="footer-top"
             >
-                {/* Section nav */}
-                <nav className="footer-nav" aria-label="Footer navigation">
-                    <span className="footer-group-label">Navigate</span>
-                    <div className="footer-link-row">
-                        {navLinks.map(({ label, href }) => (
-                            <a 
-                                key={label} 
-                                href={href} 
-                                onClick={(e) => handleScroll(e, href)}
-                                className="footer-link"
-                            >
-                                {label}
-                            </a>
-                        ))}
-                    </div>
-                </nav>
+                <div className="flex flex-wrap gap-12 md:gap-32">
+                  {/* Section nav */}
+                  <nav className="footer-nav" aria-label="Footer navigation">
+                      <span className="footer-group-label">Navigate</span>
+                      <div className="footer-link-row">
+                          {navLinks.map(({ label, href }) => (
+                              <a 
+                                  key={label} 
+                                  href={href} 
+                                  onClick={(e) => handleScroll(e, href)}
+                                  className="footer-link"
+                              >
+                                  {label}
+                              </a>
+                          ))}
+                      </div>
+                  </nav>
+
+                  {/* Social nav */}
+                  <nav className="footer-nav" aria-label="Social navigation">
+                      <span className="footer-group-label">Connect</span>
+                      <div className="footer-link-row">
+                          {socials.map(({ label, href }) => (
+                              <a 
+                                  key={label} 
+                                  href={href}
+                                  target="_blank"
+                                  rel="noopener noreferrer" 
+                                  className="footer-link"
+                              >
+                                  {label}
+                              </a>
+                          ))}
+                      </div>
+                  </nav>
+                </div>
             </motion.div>
 
             {/* ── Divider ── */}
@@ -77,11 +97,10 @@ export function Footer() {
                     viewport={{ once: true }}
                 >
                     {/* Desktop: single line */}
-                    <div className="footer-name footer-name--desktop">DIVY</div>
+                    <div className="footer-name footer-name--desktop">DIVY.</div>
                     {/* Mobile: stacked two lines so each fills the width */}
                     <div className="footer-name--mobile">
-                        <div className="footer-name footer-name--line footer-name--divy">DIVY</div>
-                        <div className="footer-name footer-name--line footer-name--barot footer-name--outline">BAROT.</div>
+                        <div className="footer-name footer-name--line footer-name--divy">DIVY.</div>
                     </div>
                 </motion.div>
             </div>
@@ -102,8 +121,8 @@ export function Footer() {
         /* ── Root ── */
         .footer-root {
           position: relative;
-          background: #080808;
-          border-top: 1px solid rgba(255,255,255,0.06);
+          background: var(--bg);
+          border-top: 1px solid var(--border-strong);
           overflow: hidden;
         }
 
@@ -128,7 +147,8 @@ export function Footer() {
           font-size: 10px;
           letter-spacing: 0.28em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.18);
+          color: var(--fg-muted);
+          opacity: 0.7;
         }
 
         .footer-link-row {
@@ -143,20 +163,23 @@ export function Footer() {
           font-size: clamp(12px, 1.1vw, 14px);
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.35);
+          color: var(--fg);
           text-decoration: none;
-          transition: color 0.22s ease;
+          transition: color 0.3s ease, transform 0.3s ease;
           /* 44px min touch target on mobile */
           min-height: 44px;
           display: inline-flex;
           align-items: center;
         }
-        .footer-link:hover { color: rgba(255,255,255,0.85); }
+        .footer-link:hover { 
+          color: var(--accent); 
+          transform: translateY(-2px);
+        }
 
         /* ── Divider ── */
         .footer-divider {
           height: 1px;
-          background: rgba(255,255,255,0.06);
+          background: var(--border-strong);
           margin: clamp(28px,4vw,48px) clamp(20px,5vw,64px) 0;
         }
 
@@ -174,17 +197,18 @@ export function Footer() {
           letter-spacing: -0.03em;
           line-height: 0.85;
           color: transparent;
-          -webkit-text-stroke: 1px rgba(255,255,255,0.09);
+          -webkit-text-stroke: 1.5px var(--border-strong);
           display: block;
           white-space: nowrap;
           user-select: none;
           cursor: default;
-          transition: -webkit-text-stroke 0.4s ease;
+          transition: -webkit-text-stroke 0.4s ease, color 0.5s ease;
           text-align: center;
           width: 100%;
         }
         .footer-name-wrap:hover .footer-name {
-          -webkit-text-stroke: 1px rgba(255,255,255,0.18);
+          -webkit-text-stroke: 1.5px var(--accent);
+          color: var(--accent);
         }
 
         /* Desktop: one line, 16.5vw fills edge-to-edge */
@@ -209,7 +233,7 @@ export function Footer() {
         /* BAROT gets the outline treatment like in Hero */
         .footer-name--outline {
           color: transparent;
-          -webkit-text-stroke: 1px rgba(255,255,255,0.09);
+          -webkit-text-stroke: 1.5px var(--border-strong);
         }
 
         /* ── Bottom bar ── */
@@ -227,7 +251,7 @@ export function Footer() {
           font-size: clamp(10px, 0.85vw, 12px);
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.2);
+          color: var(--fg-muted);
           margin: 0;
         }
 

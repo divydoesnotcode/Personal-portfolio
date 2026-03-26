@@ -352,7 +352,7 @@ export function Skills() {
         className="text-xs mt-10 text-center tracking-wider opacity-30"
         style={{ fontFamily: "var(--font-body)", color: "var(--fg-muted)" }}
       >
-        Always learning · Currently exploring Three.js &amp; WebGL
+        Always learning · Currently Developing AI agents &amp; Web3 applications.
       </motion.p>
     </section>
   );
