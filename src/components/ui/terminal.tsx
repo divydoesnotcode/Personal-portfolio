@@ -94,46 +94,77 @@ const KEY_SOUNDS_UP: Record<string, [number, number]> = {
   Enter: [19180, 100],
 };
 
-function useAudio(enabled: boolean) {
-  const ctxRef = useRef<AudioContext | null>(null);
-  const bufferRef = useRef<AudioBuffer | null>(null);
-  const readyRef = useRef(false);
+let globalAudioContext: AudioContext | null = null;
+let globalAudioBuffer: AudioBuffer | null = null;
+let globalAudioPromise: Promise<void> | null = null;
+
+export function useAudio(enabled: boolean) {
+  const [ready, setReady] = useState(!!globalAudioBuffer);
 
   useEffect(() => {
     if (!enabled) return;
-    const init = async () => {
-      try {
-        ctxRef.current = new AudioContext();
-        const res = await fetch("/sounds/sound.ogg");
-        if (!res.ok) return;
-        bufferRef.current = await ctxRef.current.decodeAudioData(
-          await res.arrayBuffer(),
-        );
-        readyRef.current = true;
-      } catch {}
+
+    if (!globalAudioContext) {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      globalAudioContext = new AudioCtx();
+    }
+
+    if (!globalAudioBuffer && !globalAudioPromise) {
+      globalAudioPromise = fetch("/sounds/sound.ogg")
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to load");
+          return res.arrayBuffer();
+        })
+        .then((buffer) => globalAudioContext!.decodeAudioData(buffer))
+        .then((audioBuffer) => {
+          globalAudioBuffer = audioBuffer;
+          setReady(true);
+        })
+        .catch(() => {});
+    } else if (globalAudioPromise && !globalAudioBuffer) {
+      globalAudioPromise.then(() => setReady(true));
+    } else if (globalAudioBuffer) {
+      setReady(true);
+    }
+
+    const unlockAudio = () => {
+      if (globalAudioContext && globalAudioContext.state === "suspended") {
+        globalAudioContext.resume().catch(() => {});
+      }
     };
-    init();
+
+    window.addEventListener("click", unlockAudio, { passive: true });
+    window.addEventListener("touchstart", unlockAudio, { passive: true });
+    window.addEventListener("keydown", unlockAudio, { passive: true });
+
     return () => {
-      ctxRef.current?.close();
+      window.removeEventListener("click", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
+      window.removeEventListener("keydown", unlockAudio);
     };
   }, [enabled]);
 
   const playSound = (sound: [number, number] | undefined) => {
-    if (!readyRef.current || !ctxRef.current || !bufferRef.current || !sound)
-      return;
-    if (ctxRef.current.state === "suspended") ctxRef.current.resume();
-    const src = ctxRef.current.createBufferSource();
-    src.buffer = bufferRef.current;
-    src.connect(ctxRef.current.destination);
+    if (!ready || !globalAudioContext || !globalAudioBuffer || !sound) return;
+    if (globalAudioContext.state === "suspended") {
+      globalAudioContext.resume().catch(() => {});
+    }
+    const src = globalAudioContext.createBufferSource();
+    src.buffer = globalAudioBuffer;
+    src.connect(globalAudioContext.destination);
     src.start(0, sound[0] / 1000, sound[1] / 1000);
   };
 
-  const down = (key: string) =>
-    playSound(KEY_SOUNDS_DOWN[key.toUpperCase()] || KEY_SOUNDS_DOWN[key]);
-  const up = (key: string) =>
-    playSound(KEY_SOUNDS_UP[key.toUpperCase()] || KEY_SOUNDS_UP[key]);
+  const down = (key: string) => {
+    const sound = KEY_SOUNDS_DOWN[key.toUpperCase()] || KEY_SOUNDS_DOWN[key] || KEY_SOUNDS_DOWN["A"];
+    playSound(sound);
+  };
+  const up = (key: string) => {
+    const sound = KEY_SOUNDS_UP[key.toUpperCase()] || KEY_SOUNDS_UP[key] || KEY_SOUNDS_UP["A"];
+    playSound(sound);
+  };
 
-  return { down, up };
+  return { down, up, ready };
 }
 
 function useInView(ref: React.RefObject<HTMLElement | null>, once = true) {
@@ -285,6 +316,7 @@ export interface TerminalProps {
   initialDelay?: number;
   enableSound?: boolean;
   onComplete?: () => void;
+  autoStart?: boolean;
 }
 
 export function Terminal({
@@ -297,11 +329,12 @@ export function Terminal({
   initialDelay = 500,
   enableSound = true,
   onComplete,
+  autoStart = false,
 }: TerminalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const inView = useInView(containerRef);
-  const { down, up } = useAudio(enableSound);
+  const { down, up, ready: audioReady } = useAudio(enableSound);
 
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [currentText, setCurrentText] = useState("");
@@ -320,11 +353,48 @@ export function Terminal({
   );
   const isLastCommand = commandIdx === commands.length - 1;
 
+  const [isStarting, setIsStarting] = useState(false);
+
+  const handleStart = () => {
+    if (phase !== "idle" || isStarting) return;
+    
+    // Explicitly unlock audio on this user gesture
+    if (globalAudioContext && globalAudioContext.state === "suspended") {
+      globalAudioContext.resume().catch(() => {});
+    }
+
+    if (!enableSound || audioReady) {
+      setIsStarting(true);
+      setTimeout(() => {
+        setIsStarting(false);
+        setPhase("typing");
+      }, initialDelay);
+    } else {
+      setIsStarting(true);
+      // Wait for audio to be ready, then type
+      const checkInterval = setInterval(() => {
+        if (globalAudioBuffer) {
+          clearInterval(checkInterval);
+          setIsStarting(false);
+          setPhase("typing");
+        }
+      }, 50);
+
+      // Fallback timeout in case fetch fails
+      setTimeout(() => {
+        clearInterval(checkInterval);
+        setIsStarting(false);
+        setPhase("typing");
+      }, 3000);
+    }
+  };
+
   useEffect(() => {
-    if (!inView || phase !== "idle") return;
-    const t = setTimeout(() => setPhase("typing"), initialDelay);
-    return () => clearTimeout(t);
-  }, [inView, phase, initialDelay]);
+    if (autoStart && phase === "idle" && !isStarting) {
+      handleStart();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoStart, phase]);
 
   useEffect(() => {
     if (phase === "done" && onComplete) {
@@ -470,6 +540,31 @@ export function Terminal({
               )}
             </div>
           ))}
+
+          {phase === "idle" && !autoStart && (
+            <div className="leading-relaxed whitespace-pre-wrap flex items-center gap-2">
+              {prompt}
+              <button
+                onClick={handleStart}
+                className="flex items-center gap-1.5 rounded bg-stone-200/50 px-2.5 py-1 text-xs font-semibold text-stone-600 transition-colors hover:bg-stone-200 hover:text-stone-800 disabled:opacity-50"
+                disabled={isStarting}
+              >
+                {isStarting ? (
+                  <>
+                    <span className="h-3 w-3 animate-spin rounded-full border-2 border-stone-400 border-t-transparent" />
+                    Loading Audio...
+                  </>
+                ) : (
+                  <>
+                    <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    Run Script
+                  </>
+                )}
+              </button>
+            </div>
+          )}
 
           {phase === "typing" && (
             <div className="leading-relaxed whitespace-pre-wrap">

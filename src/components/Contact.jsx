@@ -10,7 +10,7 @@ const socials = [
 
 export function Contact() {
     return (
-        <section id="contact" className="py-24 md:py-32 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto">
+        <section id="contact" className="py-24 md:py-32 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto" aria-label="Contact Information">
 
             {/* Label */}
             <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}

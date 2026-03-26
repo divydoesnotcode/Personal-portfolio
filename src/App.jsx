@@ -1,21 +1,21 @@
 import './App.css'
+import { useState, useEffect, lazy, Suspense } from 'react'
+import Lenis from 'lenis'
+
+// Keep these eager — they're above the fold
 import { NavbarDemo } from './components/ui/Navbar'
 import { SmoothCursorDemo } from './components/ui/SmoothCursor'
 import { ParallaxBackground } from './components/ui/ParallaxBackground'
 import { Preloader } from './components/ui/Preloader'
-import { BackgroundLines } from './components/ui/BackgroundLines'
-
 import { Hero } from './components/Hero'
-import { Projects } from './components/Projects'
-import { Skills } from './components/Skills'
-import { Experience } from './components/Experience'
-import { Contact } from './components/Contact'
-import { Footer } from './components/Footer'
 
-import { useState, useEffect } from 'react'
-import Lenis from 'lenis'
+// Lazy load everything below the fold
+const Projects = lazy(() => import('./components/Projects').then(m => ({ default: m.Projects })))
+const Skills = lazy(() => import('./components/Skills').then(m => ({ default: m.Skills })))
+const Experience = lazy(() => import('./components/Experience').then(m => ({ default: m.Experience })))
+const Contact = lazy(() => import('./components/Contact').then(m => ({ default: m.Contact })))
+const Footer = lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })))
 
-// Detect touch/mobile — cursor & parallax are pointer-device only
 function isPointerDevice() {
   if (typeof window === 'undefined') return false
   const isMobile = window.matchMedia('(max-width: 768px)').matches
@@ -34,19 +34,15 @@ function App() {
     return () => window.removeEventListener('resize', updatePointer)
   }, [])
 
-  // Lenis smooth scroll
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.35,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     })
-    window.lenis = lenis; // Expose globally for components
+    window.lenis = lenis
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
     requestAnimationFrame(raf)
-    return () => {
-      lenis.destroy();
-      window.lenis = null;
-    }
+    return () => { lenis.destroy(); window.lenis = null; }
   }, [])
 
   useEffect(() => {
@@ -60,17 +56,20 @@ function App() {
 
       {!isLoading && (
         <>
-          <ParallaxBackground />
-
+          {hasFinePointer && <ParallaxBackground />}
           <NavbarDemo>
             <Hero />
             <main>
-              <Projects />
-              <Skills />
-              <Experience />
-              <Contact />
+              <Suspense fallback={<div style={{ minHeight: '100vh' }} />}>
+                <Projects />
+                <Skills />
+                <Experience />
+                <Contact />
+              </Suspense>
             </main>
-            <Footer />
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
           </NavbarDemo>
         </>
       )}

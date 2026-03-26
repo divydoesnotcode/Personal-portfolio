@@ -203,7 +203,7 @@ function GlassCard({ project, index }) {
 // ── Section ────────────────────────────────────────────────────────────────
 export function Projects() {
   return (
-    <section id="projects" className="proj-section">
+    <section id="projects" className="proj-section" aria-label="Featured Projects">
 
       {/* Header */}
       <div className="proj-header">

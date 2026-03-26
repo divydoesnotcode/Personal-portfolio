@@ -156,6 +156,7 @@ export function Experience() {
       id="experience"
       ref={sectionRef}
       className="tl-section"
+      aria-label="Experience and Education"
     >
       {/* Section header */}
       <div className="tl-header">

@@ -77,7 +77,7 @@ export function Footer() {
                     viewport={{ once: true }}
                 >
                     {/* Desktop: single line */}
-                    <div className="footer-name footer-name--desktop">DIVY BAROT</div>
+                    <div className="footer-name footer-name--desktop">DIVY</div>
                     {/* Mobile: stacked two lines so each fills the width */}
                     <div className="footer-name--mobile">
                         <div className="footer-name footer-name--line footer-name--divy">DIVY</div>

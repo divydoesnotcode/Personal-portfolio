@@ -301,7 +301,7 @@ function SpotlightCard({ category, index }) {
 
 export function Skills() {
   return (
-    <section id="skills" className="py-24 md:py-32 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto">
+    <section id="skills" className="py-24 md:py-32 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto" aria-label="Skills and Technologies">
 
       {/* Header */}
       <div className="mb-14 md:mb-16">

@@ -1,6 +1,9 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 
+const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+
+
 const slideUp = {
     hidden: { y: "110%", opacity: 0 },
     show: (i = 0) => ({
@@ -62,7 +65,7 @@ function Marquee() {
 export function Hero() {
     const sectionRef = useRef(null);
     const { scrollY } = useScroll();
-    const nameY = useTransform(scrollY, [0, 700], [0, -50]);
+    const nameY = useTransform(scrollY, [0, 700], isMobile ? [0, 0] : [0, -50]);
 
     const handleScroll = (e, href) => {
         if (!href.startsWith("#")) return;
@@ -86,6 +89,7 @@ export function Hero() {
                 flexDirection: "column",
                 background: "var(--bg)",
             }}
+            aria-label="Introduction"
         >
             {/* Ambient glow */}
             <div style={{

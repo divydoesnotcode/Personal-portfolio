@@ -12,8 +12,6 @@
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@radix-ui/react-hover-card": "^1.1.15",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.5.0",
     "@tabler/icons-react": "^3.36.1",
     "@tailwindcss/vite": "^4.1.18",
     "clsx": "^2.1.1",
@@ -21,14 +19,11 @@
     "lenis": "^1.3.20",
     "lucide-react": "^0.562.0",
     "motion": "^12.38.0",
-    "qss": "^3.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.12.0",
-    "react-snowfall": "^2.4.0",
     "tailwind-merge": "^3.5.0",
-    "tailwindcss": "^4.1.18",
-    "three": "^0.183.2"
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
