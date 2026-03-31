@@ -73,7 +73,14 @@ function App() {
             <Suspense fallback={null}>
             </Suspense>
           </NavbarDemo>
-          <WebcamPixelGridDemo />
+          <div className="hidden md:block">
+            <WebcamPixelGridDemo />
+          </div>
+          <div className="block md:hidden">
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
+          </div>
         </>
       )}
     </>

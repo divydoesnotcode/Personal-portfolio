@@ -88,22 +88,17 @@ export function Footer() {
             {/* ── Divider ── */}
             <div className="footer-divider" />
 
-            {/* ── Giant name — two lines on mobile, one on desktop ── */}
-            <div className="footer-name-wrap" aria-hidden="true">
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                    viewport={{ once: true }}
-                >
-                    {/* Desktop: single line */}
-                    <div className="footer-name footer-name--desktop">DIVY.</div>
-                    {/* Mobile: stacked two lines so each fills the width */}
-                    <div className="footer-name--mobile">
-                        <div className="footer-name footer-name--line footer-name--divy">DIVY.</div>
-                    </div>
-                </motion.div>
-            </div>
+            {/* Subtle Status/Tagline */}
+        <div className="webcam-footer-mid">
+           <motion.p
+             initial={{ opacity: 0 }}
+             whileInView={{ opacity: 1 }}
+             transition={{ duration: 1 }}
+             className="webcam-footer-tagline"
+           >
+             "Leveraging Discipline, avoiding Distractions and building myself through Execution and Failures."
+           </motion.p>
+        </div>
 
             {/* ── Bottom bar ── */}
             <motion.div
@@ -183,11 +178,22 @@ export function Footer() {
           margin: clamp(28px,4vw,48px) clamp(20px,5vw,64px) 0;
         }
 
-        /* ── Giant name ── */
-        .footer-name-wrap {
+        .webcam-footer-mid {
           width: 100%;
-          overflow: hidden;
-          padding: 0 16px;
+          padding: clamp(40px, 6vw, 80px) clamp(20px, 5vw, 64px);
+          text-align: center;
+        }
+
+        .webcam-footer-tagline {
+           font-family: var(--font-display);
+           font-size: clamp(2rem, 5vw, 4rem);
+           font-weight: 700;
+           letter-spacing: -0.01em;
+           line-height: 1.1;
+           color: var(--fg);
+           opacity: 0.8;
+           max-width: 900px;
+           margin: 0 auto;
         }
 
         /* Shared name styles */
