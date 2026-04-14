@@ -21,12 +21,12 @@ const fade = {
 };
 
 const MARQUEE_ITEMS = [
-    "Full Stack Developer", "React · Next.js · Node.js", "Open to Work",
+    "React · Next.js · Node.js", "Open to Work",
     "UI / UX Enthusiast", "TypeScript · PostgreSQL", "Building Cool Stuff",
     "AI Engineer", "Python · FastAPI", "Discovering New Things",
     "Full Stack Developer", "React · Next.js · Node.js", "Open to Work",
-    "UI / UX Enthusiast", "TypeScript · PostgreSQL", "Building Cool Stuff",
     "AI Engineer", "Python · FastAPI", "Discovering New Things",
+    "Context Engineering · LLMs · Prompting · Always Curious",
 ];
 
 function Marquee() {
