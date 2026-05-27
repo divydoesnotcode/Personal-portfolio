@@ -29,7 +29,7 @@ export const ResumeDownload = () => {
   const handleDownload = () => {
     // Basic download trigger
     const link = document.createElement("a");
-    link.href = "/DivyResume.pdf"; // Make sure to place resume.pdf in the public folder
+    link.href = "/Divy_Barot_Resume.pdf"; // Make sure to place resume.pdf in the public folder
     link.download = "Divy_Barot_Resume.pdf";
     document.body.appendChild(link);
     link.click();
