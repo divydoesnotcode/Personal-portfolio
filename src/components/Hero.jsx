@@ -32,7 +32,7 @@ export function Hero() {
 
   // Parallax effects — only applied on pointer devices
   const textY = useTransform(scrollY, [0, 800], [0, isTouchDevice ? 0 : -80]);
-  const bgY  = useTransform(scrollY, [0, 800], [0, isTouchDevice ? 0 : 40]);
+  const bgY = useTransform(scrollY, [0, 800], [0, isTouchDevice ? 0 : 40]);
 
   const [logIndex, setLogIndex] = useState(0);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
@@ -82,7 +82,7 @@ export function Hero() {
         <div className="absolute inset-x-0 top-[20%] h-[1px] bg-[var(--border)]" />
         <div className="absolute inset-x-0 top-[50%] h-[1px] bg-[var(--border-strong)] opacity-60" />
         <div className="absolute inset-x-0 top-[80%] h-[1px] bg-[var(--border)]" />
-        
+
         {/* Vertical gridlines */}
         <div className="absolute inset-y-0 left-[20%] w-[1px] bg-[var(--border)]" />
         <div className="absolute inset-y-0 left-[50%] w-[1px] bg-[var(--border-strong)] opacity-60" />
@@ -117,7 +117,7 @@ export function Hero() {
 
       {/* ── Left Telemetry Nav HUD Panel ── */}
       <div className="hero-side-hud hidden xl:flex">
-        <div className="flex flex-col gap-10 items-center justify-between h-full py-8 border-r border-[var(--border)]">          
+        <div className="flex flex-col gap-10 items-center justify-between h-full py-8 border-r border-[var(--border)]">
           <div className="flex flex-col gap-8 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--fg-muted)] rotate-[-90deg]">
             <span className="text-[var(--accent)]">ACTIVE SCAN // ON</span>
           </div>
@@ -185,7 +185,7 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.4 }}
           className="mt-6 max-w-xl mx-auto text-sm sm:text-base font-normal tracking-wide text-[var(--fg-muted)] leading-relaxed font-sans"
         >
-          AI &amp; Machine Learning Engineer specializing in designing context-engineered LLMs, 
+          AI &amp; Machine Learning Engineer specializing in designing context-engineered LLMs,
           open-source orchestration architectures, and robust full-stack software systems.
         </motion.p>
 
@@ -203,14 +203,6 @@ export function Hero() {
           >
             <Compass size={14} className="mr-2" />
             Engage Grid
-          </a>
-          <a
-            href="#attention-sandbox"
-            onClick={(e) => handleScrollTo(e, "#attention-sandbox")}
-            className="hud-btn-secondary"
-          >
-            <Terminal size={14} className="mr-2" />
-            System Sandbox
           </a>
         </motion.div>
       </motion.div>
