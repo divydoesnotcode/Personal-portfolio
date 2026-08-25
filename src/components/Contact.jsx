@@ -23,20 +23,20 @@ export function Contact() {
 
   return (
     <section id="contact" className="f1-contact-section" aria-label="Contact Console">
-      
+
       {/* ── Visual Telemetry Corner Markers ── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Horizontal gridlines */}
         <div className="absolute inset-x-0 top-[15%] h-[1px] bg-[var(--border)]" />
         <div className="absolute inset-x-0 bottom-[15%] h-[1px] bg-[var(--border)]" />
-        
+
         {/* Intersection coordinates */}
         <span className="absolute top-[15%] left-[5%] text-[8px] font-mono text-[var(--fg-muted)] opacity-30">+ CH_06_A</span>
         <span className="absolute bottom-[15%] right-[5%] text-[8px] font-mono text-[var(--fg-muted)] opacity-30">+ CH_06_B</span>
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto">
-        
+
         {/* Telemetry connection status indicator */}
         <div className="flex items-center justify-center gap-2 mb-6">
           <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--surface)] border border-[var(--border)] rounded-full text-[10px] font-mono text-[var(--fg-muted)] tracking-wider">
@@ -60,13 +60,9 @@ export function Contact() {
           <motion.h2
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-[clamp(2.2rem,8vw,5.5rem)] font-display font-black leading-[0.9] mt-1"
-            style={{
-              WebkitTextStroke: "clamp(1.2px,0.18vw,3px) var(--border-strong)",
-              color: "transparent",
-            }}
+            className="text-[clamp(2.2rem,8vw,5.5rem)] font-display font-black leading-[0.9] text-[var(--fg)]"
           >
             SOMETHING GREAT.
           </motion.h2>

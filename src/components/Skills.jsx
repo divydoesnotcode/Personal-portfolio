@@ -106,7 +106,7 @@ function EngineCard({ category, index }) {
     >
       {/* 1. Cyber grid frame */}
       <div className="absolute inset-0 z-10 border border-[var(--border)] rounded-2xl pointer-events-none" />
-      <span className="absolute top-0.5 left-2 z-10 font-mono text-[7px] text-[var(--fg-muted)] tracking-widest opacity-40">SYSTEM_INDEX // 0{index + 1}</span>
+      {/* <span className="absolute top-0.5 left-2 z-10 font-mono text-[7px] text-[var(--fg-muted)] tracking-widest opacity-40">SYSTEM_INDEX // 0{index + 1}</span> */}
 
       {/* 2. Interactive Spotlight tracker */}
       <div

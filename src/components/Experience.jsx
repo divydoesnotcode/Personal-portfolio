@@ -154,7 +154,7 @@ function TimelineEntry({ exp, index }) {
 
         {/* 1. Cyber grid frame */}
         <div className="absolute inset-0 border border-[var(--border)] rounded-2xl pointer-events-none" />
-        <span className="absolute top-0.5 left-2 z-10 font-mono text-[7px] text-[var(--fg-muted)] tracking-widest opacity-40">STAGE_NODE // 0{index + 1}</span>
+        {/* <span className="absolute top-0.5 left-2 z-10 font-mono text-[7px] text-[var(--fg-muted)] tracking-widest opacity-40">STAGE_NODE // 0{index + 1}</span> */}
 
         {/* Status header */}
         <div className="flex justify-between items-start mb-4 border-b border-[var(--border)] pb-3">

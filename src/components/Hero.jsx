@@ -166,14 +166,10 @@ export function Hero() {
             <motion.h1
               initial={{ y: "105%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.9, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(3.5rem,14vw,11.5rem)] font-display font-normal tracking-[0.03em]"
-              style={{
-                WebkitTextStroke: "clamp(1.5px,0.18vw,3.5px) var(--border-strong)",
-                color: "transparent",
-              }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(3.5rem,14vw,11.5rem)] font-display font-normal tracking-[0.03em] text-[var(--fg)]"
             >
-              BAROT.
+              BAROT
             </motion.h1>
           </div>
         </div>
