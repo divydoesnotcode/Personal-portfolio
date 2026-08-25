@@ -1,9 +1,23 @@
 "use client";
 import { useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Sliders, Cpu, Activity, Database, Check } from "lucide-react";
+import { Sliders, Cpu, Activity, Database, Sparkles, Check } from "lucide-react";
 
 const skillCategories = [
+  {
+    label: "AI & ML",
+    systemId: "SYS_0 // MODEL_INTELLIGENCE",
+    icon: Sparkles,
+    color: { r: 199, g: 92, b: 116 }, // Dusty Rose
+    skills: [
+      { name: "Artificial Intelligence", level: 90 },
+      { name: "Machine Learning", level: 84 },
+      { name: "Prompt Engineering", level: 97 },
+      { name: "RAG", level: 85 },
+      { name: "AI API Integration", level: 92 },
+      { name: "Ollama / Local LLMs", level: 90 },
+    ],
+  },
   {
     label: "Frontend Core",
     systemId: "SYS_A // USER_INTERFACE",
@@ -88,6 +102,7 @@ function EngineCard({ category, index }) {
         setMouse({ x: -999, y: -999 });
       }}
       className="f1-skills-card"
+      style={{ "--accent-r": r, "--accent-g": g, "--accent-b": b }}
     >
       {/* 1. Cyber grid frame */}
       <div className="absolute inset-0 z-10 border border-[var(--border)] rounded-2xl pointer-events-none" />
@@ -117,7 +132,7 @@ function EngineCard({ category, index }) {
             </span>
           </div>
         </div>
-        
+
         {/* Dynamic status stats indicator */}
         <div className="flex flex-col items-end">
           <span className="font-mono text-[9px] text-[var(--accent)] font-bold">CALIBRATED_OK</span>
@@ -135,7 +150,14 @@ function EngineCard({ category, index }) {
             onMouseLeave={() => setActiveSkill(null)}
           >
             <div className="flex justify-between items-center text-xs">
-              <span className={`font-mono text-[10px] uppercase tracking-wider transition-colors duration-200 ${activeSkill === skill.name ? "text-[var(--accent)] font-bold" : "text-[var(--fg-muted)]"}`}>
+              <span
+                className={`font-mono text-[10px] uppercase tracking-wider transition-colors duration-200 ${activeSkill === skill.name ? "font-bold" : ""}`}
+                style={{
+                  color: activeSkill === skill.name
+                    ? `rgb(${r},${g},${b})`
+                    : "var(--fg-muted)",
+                }}
+              >
                 {skill.name}
               </span>
               <AnimatePresence mode="wait">
@@ -180,7 +202,7 @@ function EngineCard({ category, index }) {
         {category.skills.map((skill) => (
           <span
             key={skill.name}
-            className="font-mono text-[8px] uppercase tracking-widest px-2 py-1 bg-[var(--surface)] border border-[var(--border)] rounded flex items-center gap-1 text-[var(--fg-muted)]"
+            className="f1-skill-tag font-mono text-[8px] uppercase tracking-widest px-2 py-1 bg-[var(--surface)] border rounded flex items-center gap-1"
           >
             <Check size={8} style={{ color: `rgb(${r},${g},${b})` }} />
             {skill.name}
@@ -203,6 +225,16 @@ function EngineCard({ category, index }) {
         .f1-skills-card:hover {
           border-color: var(--border-strong) !important;
         }
+
+        .f1-skill-tag {
+          color: var(--fg-muted);
+          border-color: var(--border);
+          transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .f1-skill-tag:hover {
+          color: rgb(var(--accent-r), var(--accent-g), var(--accent-b));
+          border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.35);
+        }
       `}</style>
     </motion.div>
   );
@@ -212,18 +244,18 @@ function EngineCard({ category, index }) {
 export function Skills() {
   return (
     <section id="skills" className="f1-skills-section" aria-label="Skills Calibration Console">
-      
+
       {/* ── Immersive Grid Telemetry background ── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Horizontal gridlines */}
         <div className="absolute inset-x-0 top-[40%] h-[1px] bg-[var(--border)]" />
-        
+
         {/* Coordinate tick */}
         <span className="absolute top-[40%] right-[4%] text-[8px] font-mono text-[var(--fg-muted)] opacity-30">+ CH_04_S</span>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        
+
         {/* Section Header */}
         <div className="mb-14 md:mb-16">
           <div className="flex items-center gap-2 mb-3">
@@ -247,7 +279,7 @@ export function Skills() {
           >
             SYSTEM ENGINE <br className="hidden md:block" /> CALIBRATION.
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}

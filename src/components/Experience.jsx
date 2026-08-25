@@ -10,7 +10,7 @@ const experiences = [
     title: "Full Stack Engineer",
     company: "Procurement Genie Pvt. Ltd.",
     type: "OPERATIONAL_NODE",
-    color: { r: 180, g: 83, b: 9 }, // Terracotta
+    color: { r: 199, g: 92, b: 116 }, // Dusty Rose
     description:
       "Promoted from intern after three months. Now own the procurement product end-to-end — Next.js surfaces, Node APIs, and local plus cloud LLMs — shipping features that cut real review and negotiation time.",
     points: [
@@ -433,9 +433,17 @@ export function Experience() {
 
         .f1-tl-point-text {
           color: var(--fg-muted);
+          transition: color 0.3s ease, text-shadow 0.3s ease;
           text-shadow:
             0 0 10px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.28),
             0 0 22px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.12);
+        }
+
+        .f1-tl-point:hover .f1-tl-point-text {
+          color: rgb(var(--accent-r), var(--accent-g), var(--accent-b));
+          text-shadow:
+            0 0 12px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.5),
+            0 0 24px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.22);
         }
 
         @keyframes f1-tl-point-pulse {
