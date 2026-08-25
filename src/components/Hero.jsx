@@ -1,305 +1,383 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+"use client";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
+import { Cpu, Terminal, Compass } from "lucide-react";
 
-const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
-
-
-const slideUp = {
-    hidden: { y: "110%", opacity: 0 },
-    show: (i = 0) => ({
-        y: 0, opacity: 1,
-        transition: { duration: 0.95, ease: [0.16, 1, 0.3, 1], delay: 0.2 + i * 0.13 },
-    }),
-};
-
-const fade = {
-    hidden: { opacity: 0, y: 14 },
-    show: (i = 0) => ({
-        opacity: 1, y: 0,
-        transition: { duration: 0.7, ease: "easeOut", delay: 0.75 + i * 0.1 },
-    }),
-};
-
-const MARQUEE_ITEMS = [
-    "React · Next.js · Node.js", "Open to Work",
-    "UI / UX Enthusiast", "TypeScript · PostgreSQL", "Building Cool Stuff",
-    "AI Engineer", "Python · FastAPI", "Discovering New Things",
-    "Full Stack Developer", "React · Next.js · Node.js", "Open to Work",
-    "AI Engineer", "Python · FastAPI", "Discovering New Things",
-    "Context Engineering · LLMs · Prompting · Always Curious",
+// Ticker logs to simulate real-time AI training parameters (telemetry data)
+const SYSTEM_LOGS = [
+  "SYS_STATUS // ACTIVE",
+  "MODEL_PARAMS // LLAMA-3-70B-INSTRUCT",
+  "COMPUTE_ENG // A100-SXM4-80GB",
+  "TRAINING_LOSS // 0.8421",
+  "PRECISION // FP16_AMP",
+  "TEMP // 64°C",
+  "LATENCY // 14.8ms",
+  "EMBEDDINGS_DIM // 8192",
+  "LEARNING_RATE // 1e-4",
+  "ATTENTION_HEADS // 64"
 ];
 
-function Marquee() {
-    return (
-        <div style={{
-            overflow: "hidden",
-            borderTop: "1px solid var(--border)",
-            flexShrink: 0,
-        }}>
-            <div style={{
-                display: "flex",
-                whiteSpace: "nowrap",
-                animation: "marquee-scroll 32s linear infinite",
-                willChange: "transform",
-                transform: "translateZ(0)",
-            }}>
-                {MARQUEE_ITEMS.map((item, i) => (
-                    <span key={i} style={{
-                        display: "inline-flex", alignItems: "center", gap: "20px",
-                        padding: "13px 24px", fontSize: "10px", letterSpacing: "0.26em",
-                        textTransform: "uppercase", color: "var(--fg-muted)",
-                        fontFamily: "var(--font-body)", flexShrink: 0, opacity: 0.6,
-                    }}>
-                        {item}
-                        <span style={{
-                            width: "4px", height: "4px", borderRadius: "50%",
-                            background: "var(--accent)", flexShrink: 0, opacity: 0.5,
-                        }} />
-                    </span>
-                ))}
-            </div>
-        </div>
-    );
-}
-
 export function Hero() {
-    const sectionRef = useRef(null);
-    const { scrollY } = useScroll();
-    const nameY = useTransform(scrollY, [0, 700], isMobile ? [0, 0] : [0, -50]);
+  const sectionRef = useRef(null);
+  const { scrollY } = useScroll();
 
-    const handleScroll = (e, href) => {
-        if (!href.startsWith("#")) return;
-        e.preventDefault();
-        const targetId = href.replace("#", "");
-        const element = document.getElementById(targetId);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-        }
-    };
+  // Detect touch/mobile to skip scroll-based parallax (avoids jank)
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  useEffect(() => {
+    setIsTouchDevice(
+      window.matchMedia("(pointer: coarse)").matches ||
+      "ontouchstart" in window
+    );
+  }, []);
 
-    return (
-        <section
-            ref={sectionRef}
-            id="home"
-            style={{
-                position: "relative",
-                height: "100svh",
-                minHeight: "520px",
-                display: "flex",
-                flexDirection: "column",
-                background: "var(--bg)",
-            }}
-            aria-label="Introduction"
+  // Parallax effects — only applied on pointer devices
+  const textY = useTransform(scrollY, [0, 800], [0, isTouchDevice ? 0 : -80]);
+  const bgY  = useTransform(scrollY, [0, 800], [0, isTouchDevice ? 0 : 40]);
+
+  const [logIndex, setLogIndex] = useState(0);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+
+  // Rotate simulator stats
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLogIndex((prev) => (prev + 1) % SYSTEM_LOGS.length);
+    }, 2800);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Track mouse coordinates for interactive grid target crosshairs (desktop only)
+  const handleMouseMove = (e) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setCoords({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  const handleScrollTo = (e, targetId) => {
+    e.preventDefault();
+    if (window.lenis) {
+      window.lenis.scrollTo(targetId, {
+        duration: 1.8,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+    } else {
+      const element = document.getElementById(targetId.replace("#", ""));
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section
+      ref={sectionRef}
+      id="home"
+      onMouseMove={handleMouseMove}
+      className="hero-root"
+      aria-label="Engine Room Intro"
+    >
+      {/* ── Immersive Kinetic Grid System ── */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Horizontal gridlines */}
+        <div className="absolute inset-x-0 top-[20%] h-[1px] bg-[var(--border)]" />
+        <div className="absolute inset-x-0 top-[50%] h-[1px] bg-[var(--border-strong)] opacity-60" />
+        <div className="absolute inset-x-0 top-[80%] h-[1px] bg-[var(--border)]" />
+        
+        {/* Vertical gridlines */}
+        <div className="absolute inset-y-0 left-[20%] w-[1px] bg-[var(--border)]" />
+        <div className="absolute inset-y-0 left-[50%] w-[1px] bg-[var(--border-strong)] opacity-60" />
+        <div className="absolute inset-y-0 left-[80%] w-[1px] bg-[var(--border)]" />
+
+        {/* Intersection "+" coordinate crosshairs */}
+        <span className="absolute top-[20%] left-[20%] translate-x-[-50%] translate-y-[-50%] text-[10px] text-[var(--fg-muted)] opacity-50 font-mono">+</span>
+        <span className="absolute top-[20%] left-[80%] translate-x-[-50%] translate-y-[-50%] text-[10px] text-[var(--fg-muted)] opacity-50 font-mono">+</span>
+        <span className="absolute top-[80%] left-[20%] translate-x-[-50%] translate-y-[-50%] text-[10px] text-[var(--fg-muted)] opacity-50 font-mono">+</span>
+        <span className="absolute top-[80%] left-[80%] translate-x-[-50%] translate-y-[-50%] text-[10px] text-[var(--fg-muted)] opacity-50 font-mono">+</span>
+
+        {/* Cursor crosshair highlights */}
+        <div
+          className="absolute hidden md:block w-24 h-24 border border-dashed rounded-full pointer-events-none opacity-20 border-[var(--accent)] translate-x-[-50%] translate-y-[-50%] transition-all duration-75"
+          style={{ left: coords.x, top: coords.y }}
+        />
+        <div
+          className="absolute hidden md:block w-px h-screen bg-[var(--accent)] opacity-[0.04] pointer-events-none translate-x-[-50%]"
+          style={{ left: coords.x }}
+        />
+        <div
+          className="absolute hidden md:block h-px w-screen bg-[var(--accent)] opacity-[0.04] pointer-events-none translate-y-[-50%]"
+          style={{ top: coords.y }}
+        />
+      </div>
+
+      {/* ── Ambient Glow Lighting Chassis ── */}
+      <motion.div
+        style={isTouchDevice ? {} : { y: bgY }}
+        className="absolute top-[30%] left-[50%] translate-x-[-50%] w-[80vw] h-[40vh] bg-gradient-to-r from-[var(--accent-muted)] to-transparent blur-[140px] opacity-40 pointer-events-none z-0"
+      />
+
+      {/* ── Left Telemetry Nav HUD Panel ── */}
+      <div className="hero-side-hud hidden xl:flex">
+        <div className="flex flex-col gap-10 items-center justify-between h-full py-8 border-r border-[var(--border)]">          
+          <div className="flex flex-col gap-8 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--fg-muted)] rotate-[-90deg]">
+            <span className="text-[var(--accent)]">ACTIVE SCAN // ON</span>
+          </div>
+
+          <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+        </div>
+      </div>
+
+      {/* ── Central High-Octane Display Panel ── */}
+      <motion.div
+        style={isTouchDevice ? {} : { y: textY }}
+        className="hero-center-panel z-10"
+      >
+        {/* Dynamic telemetry scanning ticker */}
+        <div className="mb-6 flex items-center justify-center gap-3">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--surface)] border border-[var(--border)] rounded-full text-[10px] font-mono text-[var(--fg-muted)] tracking-wider">
+            <Cpu size={12} className="text-[var(--accent)] animate-spin-slow" />
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={logIndex}
+                initial={{ y: 8, opacity: 0 }}
+                animate={{ y: 0, opacity: 0.9 }}
+                exit={{ y: -8, opacity: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                {SYSTEM_LOGS[logIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </div>
+          <span className="text-[9px] font-mono text-[var(--accent)] uppercase tracking-widest animate-pulse">Telemetry Online</span>
+        </div>
+
+        {/* Cinematic Hollow Outline Headers */}
+        <div className="name-block leading-[0.82] select-none">
+          <div className="overflow-hidden py-1">
+            <motion.h1
+              initial={{ y: "105%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(3.5rem,14vw,11.5rem)] font-display font-extrabold tracking-[-0.04em] text-[var(--fg)]"
+            >
+              DIVY
+            </motion.h1>
+          </div>
+          <div className="overflow-hidden py-1 mt-1">
+            <motion.h1
+              initial={{ y: "105%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.9, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(3.5rem,14vw,11.5rem)] font-display font-extrabold tracking-[-0.04em]"
+              style={{
+                WebkitTextStroke: "clamp(1.5px,0.18vw,3.5px) var(--border-strong)",
+                color: "transparent",
+              }}
+            >
+              BAROT.
+            </motion.h1>
+          </div>
+        </div>
+
+        {/* Role & Engineering Credibility Description */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.8 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="mt-6 max-w-xl mx-auto text-sm sm:text-base font-normal tracking-wide text-[var(--fg-muted)] leading-relaxed font-sans"
         >
-            {/* Ambient glow */}
-            <div style={{
-                position: "absolute", top: "20%", left: "50%",
-                transform: "translateX(-50%)",
-                width: "90vw", height: "50vh",
-                background: "radial-gradient(ellipse at center, rgba(180,83,9,0.04) 0%, transparent 68%)",
-                pointerEvents: "none", zIndex: 0,
-            }} />
+          AI &amp; Machine Learning Engineer specializing in designing context-engineered LLMs, 
+          open-source orchestration architectures, and robust full-stack software systems.
+        </motion.p>
 
-            {/* Top bar */}
-            <motion.div
-                variants={fade} initial="hidden" animate="show" custom={0}
-                style={{
-                    position: "relative", zIndex: 10, flexShrink: 0,
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                    padding: "clamp(12px,2.5vw,22px) clamp(16px,5vw,48px)",
-                }}
-            >
-                <span style={{
-                    fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase",
-                    color: "var(--fg-muted)", fontFamily: "var(--font-body)", opacity: 0.7,
-                }}>
-                    Portfolio · 2026
-                </span>
-                <span style={{
-                    display: "flex", alignItems: "center", gap: "7px",
-                    fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase",
-                    color: "var(--accent)", fontFamily: "var(--font-body)",
-                }}>
-                    <span className="hero-status-dot" />
-                    Available for work
-                </span>
-            </motion.div>
+        {/* HUD Interactive Trigger Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.55 }}
+          className="mt-10 flex flex-wrap gap-4 items-center justify-center w-full"
+        >
+          <a
+            href="#projects"
+            onClick={(e) => handleScrollTo(e, "#projects")}
+            className="hud-btn-primary"
+          >
+            <Compass size={14} className="mr-2" />
+            Engage Grid
+          </a>
+          <a
+            href="#attention-sandbox"
+            onClick={(e) => handleScrollTo(e, "#attention-sandbox")}
+            className="hud-btn-secondary"
+          >
+            <Terminal size={14} className="mr-2" />
+            System Sandbox
+          </a>
+        </motion.div>
+      </motion.div>
 
-            {/*
-              Central content:
-              flex:1 + minHeight:0 = fills space between top-bar & marquee, can shrink.
-              Font formula: clamp(3.4rem, min(20vw, 22vh), 17rem)
-                - 20vw keeps it big relative to viewport width
-                - 22vh caps it so 2 lines + role + buttons + marquee always fit
-                  at 1080px tall: 22vh = ~237px per line  ✓
-                  at 800px tall:  22vh = ~176px per line  ✓
-                  at 600px tall:  22vh = ~132px per line  ✓
-            */}
-            <div style={{
-                flex: 1,
-                minHeight: 0,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-                zIndex: 5,
-                padding: "0 clamp(16px,5vw,40px) clamp(60px,12vh,120px)",
-                textAlign: "center",
-                gap: "clamp(10px,2vh,28px)",
-            }}>
+      {/* ── Running Ticker Base Overlay ── */}
+      <div className="hero-ticker-footer border-t border-[var(--border)] overflow-hidden pointer-events-none">
+        <div className="flex whitespace-nowrap animate-marquee font-mono text-[9px] uppercase tracking-[0.25em] text-[var(--fg-muted)] opacity-40">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <span key={idx} className="inline-flex items-center gap-12 px-6 py-3.5">
+              <span>● AI_AGENTS</span>
+              <span>● FULL-STACK_ENGINEERING</span>
+              <span>● AI_AUTOMATION</span>
+              <span>● CONTEXT_ENGINEERING</span>
+            </span>
+          ))}
+        </div>
+      </div>
 
-                {/* Giant name */}
-                <motion.div style={{ y: nameY }}>
-                    <div style={{ overflow: "hidden", lineHeight: 0.88 }}>
-                        <motion.h1
-                            variants={slideUp} initial="hidden" animate="show" custom={1}
-                            style={{
-                                fontFamily: "var(--font-display)",
-                                fontSize: "clamp(2.5rem, min(20vw, 22vh), 16rem)",
-                                fontWeight: 700,
-                                lineHeight: 0.88,
-                                letterSpacing: "-0.025em",
-                                color: "var(--fg)",
-                                margin: 0,
-                                display: "block",
-                            }}
-                        >
-                            DIVY
-                        </motion.h1>
-                    </div>
-                    <div style={{ overflow: "hidden", lineHeight: 0.88, marginTop: "clamp(2px,0.5vw,8px)" }}>
-                        <motion.h1
-                            variants={slideUp} initial="hidden" animate="show" custom={2}
-                            style={{
-                                fontFamily: "var(--font-display)",
-                                fontSize: "clamp(2.5rem, min(20vw, 22vh), 16rem)",
-                                fontWeight: 700,
-                                lineHeight: 0.88,
-                                letterSpacing: "-0.025em",
-                                WebkitTextStroke: "clamp(1.2px,0.18vw,3px) var(--border-strong)",
-                                color: "transparent",
-                                margin: 0,
-                                display: "block",
-                            }}
-                        >
-                            BAROT.
-                        </motion.h1>
-                    </div>
-                </motion.div>
-
-                {/* Role line */}
-                <div style={{ overflow: "hidden" }}>
-                    <motion.p
-                        variants={slideUp} initial="hidden" animate="show" custom={3}
-                        style={{
-                            fontFamily: "var(--font-body)",
-                            fontSize: "clamp(11px, 1.4vw, 16px)",
-                            fontWeight: 300,
-                            color: "var(--fg-muted)",
-                            letterSpacing: "0.04em",
-                            margin: 0,
-                            lineHeight: 1.6,
-                        }}
-                    >
-                        AI Engineer · Full Stack Developer
-                    </motion.p>
-                </div>
-
-                {/* CTAs */}
-                <motion.div
-                    variants={fade} initial="hidden" animate="show" custom={2}
-                    style={{
-                        display: "flex",
-                        gap: "clamp(8px,1.5vw,14px)",
-                        flexWrap: "wrap",
-                        justifyContent: "center",
-                        width: "100%",
-                    }}
-                >
-                    <a 
-                        href="#projects" 
-                        onClick={(e) => handleScroll(e, "#projects")}
-                        className="hero-cta-primary"
-                    >
-                        View Work
-                    </a>
-                    <a 
-                        href="#contact" 
-                        onClick={(e) => handleScroll(e, "#contact")}
-                        className="hero-cta-secondary"
-                    >Get in Touch</a>
-                </motion.div>
-            </div>
-
-            {/* Marquee — pinned at bottom, flexShrink:0 means it's never squeezed */}
-            <motion.div
-                variants={fade} initial="hidden" animate="show" custom={5}
-                style={{ flexShrink: 0 }}
-            >
-                <Marquee />
-            </motion.div>
-
-            <style>{`
-        .hero-status-dot {
-          width: 6px; height: 6px; border-radius: 50%;
-          background: var(--accent);
-          box-shadow: 0 0 8px var(--accent-muted);
-          display: inline-block;
-          flex-shrink: 0;
-          animation: heroDotPulse 2.2s ease-in-out infinite;
+      <style>{`
+        /* Use svh (small viewport height) so the hero fills the visible
+           area on mobile even when the browser chrome is visible.
+           Falls back through dvh → 100vh for older browsers. */
+        .hero-root {
+          position: relative;
+          height: 100vh;
+          height: 100svh;
+          min-height: 640px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--bg);
+          overflow: hidden;
+          /* Extra top padding on mobile to clear the navbar */
+          padding: clamp(70px, 10vh, 100px) clamp(16px, 5vw, 48px) 0;
         }
 
-        .hero-cta-primary {
-          padding: clamp(11px,1.5vw,15px) clamp(22px,3.5vw,40px);
-          background: var(--fg); color: var(--bg);
-          border-radius: 100px;
-          font-size: clamp(12px,1.1vw,14px);
-          font-weight: 700; font-family: var(--font-display);
-          letter-spacing: 0.06em; text-decoration: none;
-          display: inline-flex; align-items: center; justify-content: center;
-          transition: transform 0.22s ease, box-shadow 0.3s ease;
-          white-space: nowrap;
-          min-height: 44px;
-        }
-        .hero-cta-primary:hover {
-          transform: scale(1.05);
-          box-shadow: 0 8px 28px rgba(26,22,16,0.2);
-        }
-        .hero-cta-primary:active { transform: scale(0.97); }
+        /* ── Mobile-specific hero overrides ── */
+        @media (max-width: 767px) {
+          .hero-root {
+            /* Push content down so it centres in the visible area */
+            padding-top: 80px;
+            /* Allow the section to grow if content overflows */
+            height: auto;
+            min-height: 100svh;
+          }
 
-        .hero-cta-secondary {
-          padding: clamp(11px,1.5vw,15px) clamp(22px,3.5vw,40px);
-          background: transparent; color: var(--fg-muted);
-          border: 1px solid var(--border-strong);
-          border-radius: 100px;
-          font-size: clamp(12px,1.1vw,14px);
-          font-weight: 500; font-family: var(--font-display);
-          letter-spacing: 0.04em; text-decoration: none;
-          display: inline-flex; align-items: center; justify-content: center;
-          transition: all 0.25s ease;
-          white-space: nowrap;
-          min-height: 44px;
-        }
-        .hero-cta-secondary:hover {
-          border-color: var(--accent);
-          color: var(--accent);
-          transform: scale(1.04);
-        }
-        .hero-cta-secondary:active { transform: scale(0.97); }
-
-        @media (max-width: 420px) {
-          .hero-cta-primary, .hero-cta-secondary {
-            width: 100%;
-            max-width: 260px;
+          .hero-center-panel {
+            padding-bottom: 60px;
           }
         }
 
-        @keyframes heroDotPulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50%       { opacity: 0.5; transform: scale(0.8); }
+        .hero-side-hud {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 80px;
+          z-index: 10;
+        }
+
+        .hero-center-panel {
+          position: relative;
+          text-align: center;
+          max-width: 58rem;
+          /* GPU-promote this layer so CSS transforms are composited */
+          will-change: transform;
+        }
+
+        .name-block h1 {
+          margin: 0;
+          line-height: 0.82;
+          /* GPU layer for entrance animation */
+          will-change: transform, opacity;
+        }
+
+        .hud-btn-primary {
+          padding: 12px 28px;
+          background: var(--fg);
+          color: var(--bg);
+          border-radius: 8px;
+          font-size: 13px;
+          font-weight: 700;
+          font-family: var(--font-body);
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          border: 1px solid var(--fg);
+          /* Ensure touch target is comfortably tappable */
+          min-height: 48px;
+        }
+        .hud-btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px var(--accent-muted);
+          background: var(--accent);
+          border-color: var(--accent);
+          color: white;
+        }
+        .hud-btn-primary:active { transform: translateY(0); }
+
+        .hud-btn-secondary {
+          padding: 12px 28px;
+          background: transparent;
+          color: var(--fg-muted);
+          border: 1px solid var(--border-strong);
+          border-radius: 8px;
+          font-size: 13px;
+          font-weight: 600;
+          font-family: var(--font-body);
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          /* Ensure touch target is comfortably tappable */
+          min-height: 48px;
+        }
+        .hud-btn-secondary:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+          transform: translateY(-2px);
+          background: var(--accent-muted);
+        }
+        .hud-btn-secondary:active { transform: translateY(0); }
+
+        .hero-ticker-footer {
+          position: absolute;
+          bottom: 0;
+          inset-x: 0;
+          z-index: 5;
+        }
+
+        /* Full-width seamless marquee: duplicate content so the
+           -50% translate lands exactly back at start */
+        @keyframes marquee-ticker {
+          0%   { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        .animate-marquee {
+          animation: marquee-ticker 28s linear infinite;
+          /* GPU compositing so marquee doesn't block main thread */
+          will-change: transform;
+        }
+
+        /* Respect user preference for reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+          .animate-marquee,
+          .animate-spin-slow {
+            animation: none;
+          }
+        }
+
+        .animate-spin-slow {
+          animation: spin 8s linear infinite;
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
         }
       `}</style>
-        </section>
-    );
+    </section>
+  );
 }

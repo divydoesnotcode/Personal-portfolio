@@ -1,50 +1,93 @@
+"use client";
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
+import { Compass, Calendar, Layers, MapPin, Check } from "lucide-react";
 
 const experiences = [
   {
-    year: "2025 — Now",
-    title: "Full Stack Developer",
-    company: "",
-    type: "Freelance",
-    color: { r: 130, g: 112, b: 96 }, // Soft Sand / Warm Beige
-    description:
-      "Working with clients to build and maintain web applications using React, Node.js, and PostgreSQL. Integrating AI agents to automate tasks. Also experimenting with n8n",
-    highlights: ["Ollama", "React", "Node.js", "PostgreSQL", "Docker", "Next.js", "n8n"],
-  },
-  {
-    year: "2026 — Now",
-    title: "Full Stack Developer - Intern",
+    lap: "LAP_05",
+    year: "Mar 2026 — Present",
+    title: "Full Stack Engineer",
     company: "Procurement Genie Pvt. Ltd.",
-    type: "Work",
-    color: { r: 180, g: 83, b: 9 },   // Amber/Terracotta
+    type: "OPERATIONAL_NODE",
+    color: { r: 180, g: 83, b: 9 }, // Terracotta
     description:
-      "Developing and maintaining complex web applications using React, Node.js, and PostgreSQL. Integrating AI agents to automate tasks.",
-    highlights: ["Ollama", "React", "Node.js", "PostgreSQL", "Docker", "Next.js"],
+      "Promoted from intern after three months. Now own the procurement product end-to-end — Next.js surfaces, Node APIs, and local plus cloud LLMs — shipping features that cut real review and negotiation time.",
+    points: [
+      "Shipped an AI negotiation flow across Ollama, Groq, Qwen, and Ministral, cutting manual turnaround by 60%+.",
+      "Built LLM-assisted purchase-requisition review that flags anomalies and summarizes PRs, reducing manual review by 50%+.",
+      "Designed Node.js and Next.js REST APIs with provider logic decoupled, so models can swap without touching feature code.",
+    ],
+    highlights: ["Next.js", "Node.js", "Ollama", "Groq", "PostgreSQL", "React", "Docker"],
+  },
+
+  {
+    lap: "LAP_04",
+    year: "Jan 2026 — Mar 2026",
+    title: "Full Stack Engineer - Intern",
+    company: "Procurement Genie Pvt. Ltd.",
+    type: "OPERATIONAL_NODE",
+    color: { r: 110, g: 87, b: 115 }, // Muted Purple
+    description:
+      "First three months on the procurement team. Ramped on the React, Node, and PostgreSQL stack and shipped production UI and API work that converted into a full-time seat.",
+    points: [
+      "Owned day-to-day feature delivery across the multi-tenant portal — frontend surfaces and REST APIs — while learning the procurement domain.",
+      "Stood up local LLM experiments with Ollama so later production AI features already had a working integration path.",
+      "Converted to Full Stack Engineer after three months on the strength of that delivery, not a timed rotation.",
+    ],
+    highlights: ["React", "Node.js", "PostgreSQL", "Next.js", "Ollama", "Docker"],
   },
   {
-    year: "2023 — Now",
-    title: "B.E in Computer Science & Engineering - AI/ML",
+    lap: "LAP_03",
+    year: "2023 — Present",
+    title: "Full Stack Engineer - Freelance",
+    company: "Freelance Client Systems",
+    type: "CONTRACT_TELEMETRY",
+    color: { r: 217, g: 119, b: 6 }, // Amber
+    description:
+      "Ran client work fully remote and async since 2023 — two clients, no fixed hours, no daily check-ins. Owned delivery from scope to deploy: custom frontends, APIs, and AI automation.",
+    points: [
+      "Designed and deployed Vermithor, a self-hosted AI Telegram assistant on n8n, Groq, and Docker — calendar, weather, and a daily briefing in one workflow.",
+      "Shipped DJ Rohan's production portfolio in Next.js and TypeScript: animations, social integrations, and a responsive deploy against live client notes.",
+      "Built My Daily Briefing: six parallel APIs into one Discord digest, filtering 1,000+ RSS items down to the top 5 stories per run — LLM layered on after the pipeline already worked.",
+    ],
+    highlights: ["Next.js", "n8n", "Groq", "Docker", "TypeScript", "React"],
+  },
+  {
+    lap: "LAP_02",
+    year: "2023 — 2026",
+    title: "B.E. Computer Science - AI/ML",
     company: "New L.J. Institute of Engineering and Technology",
-    type: "Education",
-    color: { r: 110, g: 87, b: 115 },   // Muted Plum/Dusty Purple
+    type: "ACADEMIC_CALIBRATION",
+    color: { r: 67, g: 90, b: 72 }, // Sage Green
     description:
-      "Pursuing a Bachelor of Engineering in Computer Science with a specialization in Artificial Intelligence and Machine Learning. Gaining comprehensive knowledge in core computer science subjects and advanced AI/ML concepts.",
-    highlights: ["AI", "ML", "Data Science", "Deep Learning", "Python", "TensorFlow", "PyTorch"],
+      "B.E. in Computer Science with an AI/ML specialization at New L.J. Institute (GTU) — 9.23 CGPA. Coursework in AI, ML, deep learning, computer vision, and DevOps, used as a lab for real products rather than a transcript checklist.",
+    points: [
+      "Built ProcureGenie, a local-LLM vendor discovery system: FastAPI + PostgreSQL first, Ollama only on a miss, results validated with Pydantic and persisted for reuse.",
+      "Shipped the React (Vite) frontend with a dual-mode search toggle between database lookups and live AI generation.",
+      "Ran freelance and internship work in parallel with the degree, so models, APIs, and deploys landed on real clients — not just lab notebooks.",
+    ],
+    highlights: ["Python", "FastAPI", "PyTorch", "Ollama", "PostgreSQL", "Deep Learning"],
   },
   {
+    lap: "LAP_01",
     year: "2020 — 2023",
     title: "Diploma in Computer Engineering",
     company: "R. C. Technical Institute",
-    type: "Education",
-    color: { r: 67, g: 90, b: 72 },   // Muted Sage/Olive
+    type: "ACADEMIC_CALIBRATION",
+    color: { r: 122, g: 106, b: 83 }, // Warm Stone
     description:
-      "Coursework included Data Structures, Algorithms, Web Development, and Database Management Systems.",
-    highlights: ["DSA", "System Design", "Web Dev", "DBMS"],
+      "Diploma in Computer Engineering at R. C. Technical Institute (GTU) — 8.68 CGPA. Three years of the actual building blocks: DSA, Java, OS, networking, and web applications, before any of the AI work.",
+    points: [
+      "Coursework in data structures, algorithms, DBMS, operating systems, and computer networks, with web application development as the first production-shaped work.",
+      "Learned to write and reason about programs in Java and structured databases before jumping to frameworks.",
+      "Left with a systems foundation that later made Node APIs, PostgreSQL, and Docker feel like extensions of the same ideas — not a new language.",
+    ],
+    highlights: ["DSA", "Java", "DBMS", "Networking", "Web Dev", "OS"],
   },
 ];
 
-// ── Animated vertical beam that fills as you scroll through the section ──────
+// ── Animated vertical race vector track that fills as you scroll ──────
 function TimelineBeam({ containerRef }) {
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -54,95 +97,124 @@ function TimelineBeam({ containerRef }) {
   const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    // Track — full-height faint line
-    <div className="tl-track">
-      {/* Filled beam that grows with scroll */}
-      <motion.div className="tl-beam" style={{ scaleY, originY: 0 }} />
-      {/* Glowing head dot that rides the top of the beam */}
+    <div className="f1-tl-track">
+      {/* Filled race vector line */}
+      <motion.div className="f1-tl-beam" style={{ scaleY, originY: 0 }} />
+      {/* Glowing head indicator riding the scroll line */}
       <motion.div
-        className="tl-dot"
+        className="f1-tl-dot"
         style={{ top: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
       />
     </div>
   );
 }
 
-// ── Single timeline entry ──────────────────────────────────────────────────
+// ── Single timeline telemetry entry ──────────────────────────────────────
 function TimelineEntry({ exp, index }) {
   const { r, g, b } = exp.color;
   const accent = `rgba(${r},${g},${b},`;
 
   return (
-    <div className="tl-entry">
+    <div className="f1-tl-entry">
 
-      {/* Left: sticky year label */}
-      <div className="tl-year-col">
-        <div className="tl-year-sticky">
-          <motion.span
+      {/* Left: Sticky lap stats label */}
+      <div className="f1-tl-year-col">
+        <div className="f1-tl-year-sticky">
+          <motion.div
             initial={{ opacity: 0, x: -12 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: index * 0.08 }}
             viewport={{ once: true }}
-            className="tl-year-text"
+            className="flex flex-col items-end gap-1.5"
           >
-            {exp.year}
-          </motion.span>
+            <span className="font-display text-lg font-black" style={{ color: `rgb(${r},${g},${b})` }}>
+              {exp.lap}
+            </span>
+            <span className="font-mono text-[9px] uppercase tracking-wider text-[var(--fg-muted)] opacity-60">
+              {exp.year}
+            </span>
+          </motion.div>
         </div>
       </div>
 
-      {/* Right: content card */}
+      {/* Right: Telemetry data card */}
       <motion.div
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.65, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
         viewport={{ once: true, margin: "-40px" }}
-        className="tl-card"
+        className="f1-tl-card"
         style={{ "--accent-r": r, "--accent-g": g, "--accent-b": b }}
       >
-        {/* Corner glow */}
+        {/* Ambient glow inside card */}
         <div
-          className="tl-card-glow"
-          style={{ background: `radial-gradient(circle at top right, ${accent}0.12), transparent)` }}
+          className="absolute inset-0 pointer-events-none rounded-2xl transition-opacity duration-300"
+          style={{ background: `radial-gradient(circle at top right, ${accent}0.08), transparent)` }}
         />
 
-        {/* Type badge */}
-        <div className="tl-badge-row">
+        {/* 1. Cyber grid frame */}
+        <div className="absolute inset-0 border border-[var(--border)] rounded-2xl pointer-events-none" />
+        <span className="absolute top-0.5 left-2 z-10 font-mono text-[7px] text-[var(--fg-muted)] tracking-widest opacity-40">STAGE_NODE // 0{index + 1}</span>
+
+        {/* Status header */}
+        <div className="flex justify-between items-start mb-4 border-b border-[var(--border)] pb-3">
           <span
-            className="tl-badge"
+            className="font-mono text-[9px] uppercase tracking-widest px-2 py-0.5 rounded border"
             style={{
-              color: `${accent}0.85)`,
-              borderColor: `${accent}0.2)`,
-              background: `${accent}0.07)`,
+              color: `rgba(${r},${g},${b},0.9)`,
+              borderColor: `rgba(${r},${g},${b},0.25)`,
+              backgroundColor: `rgba(${r},${g},${b},0.05)`,
             }}
           >
             {exp.type}
           </span>
+          <div className="flex items-center gap-1 text-[8px] font-mono text-[var(--fg-muted)] opacity-60">
+            <Calendar size={10} className="text-[var(--accent)]" />
+            <span>CALIBRATED // OK</span>
+          </div>
         </div>
 
-        {/* Title + company */}
-        <h3 className="tl-title">{exp.title}</h3>
-        <p className="tl-company" style={{ color: `${accent}0.8)` }}>{exp.company}</p>
+        {/* Title & Organization */}
+        <h3 className="font-display font-extrabold text-base text-[var(--fg)] mb-1 leading-snug">
+          {exp.title}
+        </h3>
+        <p className="font-sans text-xs font-semibold mb-4 flex items-center gap-1.5" style={{ color: `rgba(${r},${g},${b},0.9)` }}>
+          <MapPin size={11} className="text-[var(--fg-muted)]" />
+          {exp.company}
+        </p>
 
-        {/* Description */}
-        <p className="tl-desc">{exp.description}</p>
+        {/* Job Narrative */}
+        <p className={`font-sans text-xs text-[var(--fg-muted)] leading-relaxed ${exp.points?.length ? "mb-4" : "mb-6"}`}>
+          {exp.description}
+        </p>
+        {exp.points?.length > 0 && (
+          <ul className="flex flex-col gap-2.5 mb-6 pl-0.5">
+            {exp.points.map((point) => (
+              <li key={point} className="f1-tl-point flex items-start gap-2.5">
+                <span className="f1-tl-point-dot" aria-hidden />
+                <span className="f1-tl-point-text font-sans text-xs leading-relaxed">
+                  {point}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
 
-        {/* Tech chips */}
-        <div className="tl-chips">
+        {/* Action tags */}
+        <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[var(--border)]">
           {exp.highlights.map((h) => (
             <span
               key={h}
-              className="tl-chip"
-              style={{
-                color: `${accent}0.7)`,
-                borderColor: `${accent}0.15)`,
-                background: `${accent}0.05)`,
-              }}
+              className="font-mono text-[8px] uppercase tracking-widest px-2 py-1 bg-[var(--surface)] border border-[var(--border)] rounded flex items-center gap-1 text-[var(--fg-muted)]"
             >
+              <Check size={8} style={{ color: `rgb(${r},${g},${b})` }} />
               {h}
             </span>
           ))}
         </div>
+
       </motion.div>
+
     </div>
   );
 }
@@ -150,286 +222,238 @@ function TimelineEntry({ exp, index }) {
 // ── Section ────────────────────────────────────────────────────────────────
 export function Experience() {
   const sectionRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia('(max-width: 767px)').matches);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <section
       id="experience"
       ref={sectionRef}
-      className="tl-section"
-      aria-label="Experience and Education"
+      className="f1-tl-section"
+      aria-label="Lap Registry Timeline"
     >
-      {/* Section header */}
-      <div className="tl-header">
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="tl-eyebrow"
-        >
-          The Journey
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="tl-heading"
-        >
-          Experience &amp; <br className="hidden md:block" /> Education.
-        </motion.h2>
+
+      {/* ── Immersive Grid Telemetry background ── */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Horizontal gridlines */}
+        <div className="absolute inset-x-0 top-[25%] h-[1px] bg-[var(--border)]" />
+
+        {/* Coordinate tick */}
+        <span className="absolute top-[25%] left-[4%] text-[8px] font-mono text-[var(--fg-muted)] opacity-30">+ CH_05_E</span>
       </div>
 
-      {/* Timeline body */}
-      <div className="tl-body" ref={sectionRef}>
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
 
-        {/* The animated beam lives here, absolutely positioned */}
-        <TimelineBeam containerRef={sectionRef} />
+        {/* Section header */}
+        <div className="mb-14 md:mb-16">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="font-mono text-[10px] text-[var(--accent)] uppercase tracking-[0.25em]"
+            >
+              Telemetry History // Lap Registry
+            </motion.p>
+          </div>
 
-        {/* Entries */}
-        <div className="tl-entries">
-          {experiences.map((exp, i) => (
-            <TimelineEntry key={exp.title} exp={exp} index={i} />
-          ))}
+          <motion.h2
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="f1-tl-heading font-display text-[clamp(2.4rem,6vw,5.5rem)] font-extrabold leading-[0.95] text-[var(--fg)]"
+          >
+            CAREER &amp; ACADEMIC <br className="hidden md:block" /> LAP REGISTRY.
+          </motion.h2>
         </div>
+
+        {/* Timeline body */}
+        <div className="f1-tl-body">
+
+          {/* Animated race vector line — only loaded on desktop to save mobile CPU */}
+          {!isMobile && <TimelineBeam containerRef={sectionRef} />}
+
+          {/* Entries */}
+          <div className="f1-tl-entries">
+            {experiences.map((exp, i) => (
+              <TimelineEntry key={exp.title} exp={exp} index={i} />
+            ))}
+          </div>
+
+        </div>
+
       </div>
 
       <style>{`
-        /* ── Section ── */
-        .tl-section {
-          padding: clamp(64px,8vw,96px) clamp(16px,5vw,48px);
-          max-width: 72rem;
-          margin: 0 auto;
+        .f1-tl-section {
+          position: relative;
+          padding: clamp(64px, 8vw, 96px) 0;
+          background: var(--bg);
         }
 
-        /* ── Header ── */
-        .tl-header {
-          margin-bottom: clamp(40px,5vw,64px);
-        }
-        .tl-eyebrow {
-          color: var(--accent);
-          font-size: 11px;
-          letter-spacing: 0.28em;
-          text-transform: uppercase;
-          font-family: var(--font-body);
-          margin: 0 0 10px;
-        }
-        .tl-heading {
-          font-family: var(--font-display);
-          font-size: clamp(2.4rem,6vw,5rem);
-          font-weight: 800;
-          color: var(--fg);
-          line-height: 1.05;
-          letter-spacing: -0.025em;
-          margin: 0;
+        .f1-tl-heading {
+          letter-spacing: -0.03em;
         }
 
-        /* ── Timeline body (relative for the beam) ── */
-        .tl-body {
+        .f1-tl-body {
           position: relative;
         }
 
-        /* ── Beam track ── */
-        .tl-track {
-          /* On mobile: hidden (entries stack single column) */
+        /* ── Telemetry Race Line ── */
+        .f1-tl-track {
           display: none;
           position: absolute;
-          /* Align with the left edge of content column on desktop */
-          left: clamp(120px,18vw,200px);
+          left: clamp(120px, 18vw, 200px);
           top: 0;
           bottom: 0;
-          width: 2px;
+          width: 1px;
           z-index: 1;
         }
-        /* Show on md+ */
         @media (min-width: 768px) {
-          .tl-track { display: block; }
+          .f1-tl-track { display: block; }
         }
 
-        .tl-track::before {
+        .f1-tl-track::before {
           content: '';
           position: absolute;
           inset: 0;
           background: var(--border);
-          border-radius: 2px;
         }
 
-        .tl-beam {
+        .f1-tl-beam {
           position: absolute;
           inset: 0;
           background: linear-gradient(to bottom,
             rgba(180,83,9,0.0) 0%,
-            rgba(180,83,9,0.6) 40%,
-            rgba(110,87,115,0.5) 70%,
-            rgba(67,90,72,0.5) 100%
+            rgba(180,83,9,0.8) 22%,
+            rgba(217,119,6,0.75) 48%,
+            rgba(110,87,115,0.7) 74%,
+            rgba(67,90,72,0.7) 100%
           );
-          border-radius: 2px;
           transform-origin: top;
         }
 
-        .tl-dot {
+        .f1-tl-dot {
           position: absolute;
           left: 50%;
           transform: translateX(-50%) translateY(-50%);
-          width: 10px;
-          height: 10px;
+          width: 7px;
+          height: 7px;
           border-radius: 50%;
           background: var(--accent);
-          box-shadow: 0 0 14px rgba(180,83,9,0.5), 0 0 28px rgba(180,83,9,0.2);
+          box-shadow: 0 0 10px var(--accent);
           z-index: 2;
         }
 
-        /* ── Entries list ── */
-        .tl-entries {
+        .f1-tl-entries {
           display: flex;
           flex-direction: column;
-          gap: clamp(32px,4vw,52px);
+          gap: clamp(32px, 5vw, 64px);
         }
 
-        /* ── Single entry ── */
-        .tl-entry {
+        .f1-tl-entry {
           display: grid;
-          /* Mobile: single column */
           grid-template-columns: 1fr;
-          gap: 12px;
+          gap: 16px;
           position: relative;
         }
         @media (min-width: 768px) {
-          .tl-entry {
-            /* Desktop: [year col] [gap for beam] [card] */
-            grid-template-columns: clamp(100px,16vw,180px) clamp(32px,3vw,48px) 1fr;
+          .f1-tl-entry {
+            grid-template-columns: clamp(100px, 16vw, 180px) clamp(32px, 3vw, 48px) 1fr;
             gap: 0;
             align-items: start;
           }
         }
 
-        /* ── Year column ── */
-        .tl-year-col {
-          /* On mobile sit above card */
+        .f1-tl-year-col {
+          text-align: left;
         }
         @media (min-width: 768px) {
-          .tl-year-col {
-            /* Sticky so year label follows the card while scrolling */
+          .f1-tl-year-col {
+            text-align: right;
             position: relative;
           }
         }
 
-        .tl-year-sticky {
-          padding-top: 20px; /* align with card top padding */
+        .f1-tl-year-sticky {
+          padding-top: 16px;
         }
         @media (min-width: 768px) {
-          .tl-year-sticky {
+          .f1-tl-year-sticky {
             position: sticky;
-            top: clamp(80px, 12vh, 120px);
+            top: clamp(100px, 14vh, 140px);
           }
         }
 
-        .tl-year-text {
-          font-family: var(--font-body);
-          font-size: clamp(11px,0.9vw,13px);
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: var(--fg-muted);
-          white-space: nowrap;
-        }
-
-        /* ── Card ── */
-        .tl-card {
+        .f1-tl-card {
           position: relative;
-          padding: clamp(20px,2.5vw,28px);
-          border-radius: 20px;
-          border: 1px solid var(--border);
+          padding: 24px;
+          border-radius: 16px;
           background: var(--bg-card);
           overflow: hidden;
-          transition: border-color 0.3s, background 0.3s;
         }
-        .tl-card:hover {
-          border-color: var(--border-strong);
-          background: var(--bg-card);
-          box-shadow: var(--shadow-card);
-        }
-        /* On desktop, the middle column is the beam lane — card sits in column 3 */
         @media (min-width: 768px) {
-          .tl-card {
+          .f1-tl-card {
             grid-column: 3;
           }
         }
 
-        .tl-card-glow {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          border-radius: 20px;
-        }
-
-        /* ── Card internals ── */
-        .tl-badge-row {
-          margin-bottom: 12px;
-        }
-        .tl-badge {
-          font-family: var(--font-body);
-          font-size: 11px;
-          font-weight: 500;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          padding: 3px 10px;
-          border-radius: 100px;
-          border: 1px solid;
-        }
-
-        .tl-title {
-          font-family: var(--font-display);
-          font-size: clamp(1.1rem,2vw,1.35rem);
-          font-weight: 700;
-          color: var(--fg);
-          margin: 0 0 4px;
-          line-height: 1.3;
-        }
-        .tl-company {
-          font-family: var(--font-body);
-          font-size: clamp(12px,1vw,14px);
-          font-weight: 500;
-          margin: 0 0 14px;
-        }
-        .tl-desc {
-          font-family: var(--font-body);
-          font-size: clamp(13px,1vw,14px);
-          color: var(--fg-muted);
-          line-height: 1.7;
-          margin: 0 0 16px;
-        }
-
-        .tl-chips {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-        .tl-chip {
-          font-family: var(--font-body);
-          font-size: 11px;
-          font-weight: 500;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          padding: 4px 10px;
-          border-radius: 8px;
-          border: 1px solid;
-        }
-
-        /* ── Mobile connector dot (replaces beam on mobile) ── */
+        /* Mobile entry outline marker */
         @media (max-width: 767px) {
-          .tl-year-text {
-            display: inline-flex;
+          .f1-tl-year-col {
+            display: flex;
             align-items: center;
             gap: 8px;
           }
-          .tl-year-text::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-            flex-shrink: 0;
-            box-shadow: 0 0 8px rgba(180,83,9,0.4);
+        }
+
+        .f1-tl-point-dot {
+          margin-top: 6px;
+          width: 6px;
+          height: 6px;
+          flex-shrink: 0;
+          border-radius: 50%;
+          background: rgb(var(--accent-r), var(--accent-g), var(--accent-b));
+          box-shadow:
+            0 0 4px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 1),
+            0 0 10px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.7),
+            0 0 18px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.4);
+          animation: f1-tl-point-pulse 2.6s ease-in-out infinite;
+        }
+
+        .f1-tl-point-text {
+          color: var(--fg-muted);
+          text-shadow:
+            0 0 10px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.28),
+            0 0 22px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.12);
+        }
+
+        @keyframes f1-tl-point-pulse {
+          0%, 100% {
+            box-shadow:
+              0 0 4px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.85),
+              0 0 10px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.45);
           }
+          50% {
+            box-shadow:
+              0 0 6px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 1),
+              0 0 16px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.75),
+              0 0 28px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.35);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .f1-tl-point-dot { animation: none; }
         }
       `}</style>
     </section>

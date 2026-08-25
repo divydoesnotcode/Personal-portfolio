@@ -1,5 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap');
 
 /* ── Design Tokens ───────────────────────────────────────────── */
 :root {
@@ -26,9 +26,9 @@
 
     --border-strong: rgba(245, 240, 232, 0.18);
 
-    --shadow-card: 0 4px 20px rgba(0,0,0,0.5);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
 
-    --shadow-card-hover: 0 8px 30px rgba(0,0,0,0.7);
+    --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.7);
 
 }
 
@@ -86,9 +86,17 @@ h4,
 }
 
 @media (max-width: 768px) {
-    h1 { font-size: clamp(2rem, 8vw, 3rem); }
-    h2 { font-size: clamp(1.75rem, 6vw, 2.5rem); }
-    h3 { font-size: clamp(1.5rem, 5vw, 2rem); }
+    h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    h2 {
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+    }
+
+    h3 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+    }
 }
 
 /* ── Scrollbar ───────────────────────────────────────────────── */
@@ -165,6 +173,6 @@ button {
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+    animation: none;
+    mix-blend-mode: normal;
 }

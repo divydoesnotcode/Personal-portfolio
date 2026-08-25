@@ -1,4 +1,6 @@
+"use client";
 import { motion } from "motion/react";
+import { Compass, Mail, ExternalLink, ShieldCheck } from "lucide-react";
 
 const socials = [
   { label: "GitHub", href: "https://github.com/divydoesnotcode" },
@@ -9,6 +11,7 @@ const socials = [
 
 const navLinks = [
   { label: "Work", href: "#projects" },
+  { label: "Sandbox", href: "#attention-sandbox" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Contact", href: "#contact" },
@@ -20,15 +23,14 @@ export function Footer() {
   const handleScroll = (e, href) => {
     if (!href.startsWith("#")) return;
     e.preventDefault();
-    const targetId = href.replace("#", "");
 
-    // Use Lenis for slower, smoother scroll if available
     if (window.lenis) {
       window.lenis.scrollTo(href, {
-        duration: 2.5,
+        duration: 1.8,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       });
     } else {
+      const targetId = href.replace("#", "");
       const element = document.getElementById(targetId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
@@ -37,255 +39,138 @@ export function Footer() {
   };
 
   return (
-    <footer className="footer-root">
+    <footer className="f1-footer-root">
+      
+      {/* ── Geometric Telemetry Grid System ── */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Horizontal gridlines */}
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-[var(--border-strong)]" />
+        <div className="absolute inset-x-0 bottom-[60px] h-[1px] bg-[var(--border)]" />
+        
+        {/* Vertical gridlines */}
+        <div className="absolute inset-y-0 left-[10%] w-[1px] bg-[var(--border)]" />
+        <div className="absolute inset-y-0 right-[10%] w-[1px] bg-[var(--border)]" />
 
-      {/* ── Top strip ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="footer-top"
-      >
-        <div className="flex flex-wrap gap-12 md:gap-32">
-          {/* Section nav */}
-          <nav className="footer-nav" aria-label="Footer navigation">
-            <span className="footer-group-label">Navigate</span>
-            <div className="footer-link-row">
+        {/* Coordinate points */}
+        <span className="absolute top-2 left-[10%] translate-x-[-50%] text-[8px] font-mono text-[var(--fg-muted)] opacity-40">+ F1_GRID</span>
+        <span className="absolute top-2 right-[10%] translate-x-[50%] text-[8px] font-mono text-[var(--fg-muted)] opacity-40">+ F1_GRID</span>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
+        
+        {/* ── Top Control HUD ── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+          
+          {/* Brand/Telemetry Column */}
+          <div className="flex flex-col gap-4">
+            <span className="text-[10px] font-mono text-[var(--accent)] uppercase tracking-[0.25em]">System Status</span>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-mono font-bold tracking-wider uppercase text-[var(--fg)]">GRID_ENGAGED // OK</span>
+            </div>
+            <p className="text-xs text-[var(--fg-muted)] leading-relaxed mt-2 font-sans">
+              Designed around telemetry frameworks and high-performance computing design specs. Re-engineering visual storytelling.
+            </p>
+          </div>
+
+          {/* Navigation Anchors Column */}
+          <div className="flex flex-col gap-4">
+            <span className="text-[10px] font-mono text-[var(--fg-muted)] uppercase tracking-[0.25em] opacity-80">Navigate Console</span>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
               {navLinks.map(({ label, href }) => (
                 <a
                   key={label}
                   href={href}
                   onClick={(e) => handleScroll(e, href)}
-                  className="footer-link"
+                  className="f1-footer-link"
                 >
+                  <Compass size={11} className="inline mr-1 text-[var(--accent)]" />
                   {label}
                 </a>
               ))}
             </div>
-          </nav>
+          </div>
 
-          {/* Social nav */}
-          <nav className="footer-nav" aria-label="Social navigation">
-            <span className="footer-group-label">Connect</span>
-            <div className="footer-link-row">
+          {/* Social Nodes Column */}
+          <div className="flex flex-col gap-4">
+            <span className="text-[10px] font-mono text-[var(--fg-muted)] uppercase tracking-[0.25em] opacity-80">Connect Nodes</span>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
               {socials.map(({ label, href }) => (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footer-link"
+                  className="f1-footer-link"
                 >
+                  <ExternalLink size={11} className="inline mr-1 text-[var(--fg-muted)]" />
                   {label}
                 </a>
               ))}
             </div>
-          </nav>
+          </div>
+
         </div>
-      </motion.div>
 
-      {/* ── Divider ── */}
-      <div className="footer-divider" />
+        {/* ── Signature Philosophy Large Text (Cinematic Reveal) ── */}
+        <div className="my-14 border-t border-b border-[var(--border)] py-10 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent-muted)] via-transparent to-transparent opacity-10 pointer-events-none" />
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 0.85, y: 0 }}
+            transition={{ duration: 0.9 }}
+            viewport={{ once: true }}
+            className="f1-tagline font-display text-[clamp(1.4rem,4.5vw,3.2rem)] font-extrabold leading-[1.1] text-[var(--fg)] max-w-5xl mx-auto tracking-tight"
+          >
+            "Leveraging Discipline, avoiding Distractions and building myself through Execution and Failures."
+          </motion.p>
+        </div>
 
-      {/* Subtle Status/Tagline */}
-      <div className="webcam-footer-mid">
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="webcam-footer-tagline"
-        >
-          "Leveraging Discipline, avoiding Distractions and building myself through Execution and Failures."
-        </motion.p>
+        {/* ── Bottom HUD Meta Bar ── */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8 pt-4">
+          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--fg-muted)]">
+            <ShieldCheck size={12} className="text-emerald-500" />
+            <span>AI ENGINE PROV // COMPILING OK</span>
+          </div>
+          
+          <div className="flex items-center gap-8 text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--fg-muted)]">
+            <span>© {year} DIVY BAROT</span>
+            <span>GRID_LOC // 23.03_N 72.57_E</span>
+          </div>
+        </div>
+
       </div>
 
-      {/* ── Divider ── */}
-      <div className="footer-divider" />
-
-      {/* ── Bottom bar ── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        viewport={{ once: true }}
-        className="footer-bottom"
-      >
-        <p className="footer-meta">AI Engineer &amp; Full Stack Developer</p>
-        <p className="footer-meta">© {year} Divy Barot</p>
-      </motion.div>
-
       <style>{`
-        /* ── Root ── */
-        .footer-root {
+        .f1-footer-root {
           position: relative;
           background: var(--bg);
-          border-top: 1px solid var(--border-strong);
           overflow: hidden;
+          width: 100%;
         }
 
-        /* ── Top strip ── */
-        .footer-top {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: clamp(28px, 4vw, 40px);
-          padding: clamp(32px,5vw,56px) clamp(20px,5vw,64px) 0;
-        }
-
-        .footer-nav {
-          display: flex;
-          flex-direction: column;
-          gap: 14px;
-        }
-
-        .footer-group-label {
+        .f1-footer-link {
           font-family: var(--font-body);
-          font-size: 10px;
-          letter-spacing: 0.28em;
-          text-transform: uppercase;
-          color: var(--fg-muted);
-          opacity: 0.7;
-        }
-
-        .footer-link-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: clamp(14px, 2.5vw, 32px);
-          align-items: center;
-        }
-
-        .footer-link {
-          font-family: var(--font-body);
-          font-size: clamp(12px, 1.1vw, 14px);
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
+          font-size: 13px;
           color: var(--fg);
           text-decoration: none;
-          transition: color 0.3s ease, transform 0.3s ease;
-          /* 44px min touch target on mobile */
-          min-height: 44px;
           display: inline-flex;
           align-items: center;
+          padding: 6px 0;
+          transition: color 0.25s ease, transform 0.2s ease;
         }
-        .footer-link:hover { 
-          color: var(--accent); 
-          transform: translateY(-2px);
-        }
-
-        /* ── Divider ── */
-        .footer-divider {
-          height: 1px;
-          background: var(--border-strong);
-          margin: clamp(28px,4vw,48px) clamp(20px,5vw,64px) 0;
-        }
-
-        .webcam-footer-mid {
-          width: 100%;
-          padding: clamp(40px, 6vw, 80px) clamp(20px, 5vw, 64px);
-          text-align: center;
-        }
-
-        .webcam-footer-tagline {
-           font-family: var(--font-display);
-           font-size: clamp(2rem, 5vw, 4rem);
-           font-weight: 700;
-           letter-spacing: -0.01em;
-           line-height: 1.1;
-           color: var(--fg);
-           opacity: 0.8;
-           max-width: 900px;
-           margin: 0 auto;
-        }
-
-        /* Shared name styles */
-        .footer-name {
-          font-family: var(--font-display);
-          font-weight: 800;
-          letter-spacing: -0.03em;
-          line-height: 0.85;
-          color: transparent;
-          -webkit-text-stroke: 1.5px var(--border-strong);
-          display: block;
-          white-space: nowrap;
-          user-select: none;
-          cursor: default;
-          transition: -webkit-text-stroke 0.4s ease, color 0.5s ease;
-          text-align: center;
-          width: 100%;
-        }
-        .footer-name-wrap:hover .footer-name {
-          -webkit-text-stroke: 1.5px var(--accent);
+        .f1-footer-link:hover {
           color: var(--accent);
+          transform: translateX(2px);
         }
 
-        /* Desktop: one line, 16.5vw fills edge-to-edge */
-        .footer-name--desktop {
-          font-size: clamp(2.2rem, 16.5vw, 18rem);
-          display: block;
+        .f1-tagline {
+          letter-spacing: -0.015em;
         }
 
-        /* Mobile two-line variant — hidden on desktop */
-        .footer-name--mobile {
-          display: none;
-        }
-
-        /* Each mobile line fills full width */
-        .footer-name--line {
-          display: block;
-          white-space: nowrap;
-        }
-        .footer-name--divy { font-size: 25vw; }
-        .footer-name--barot { font-size: 18.5vw; }
-
-        /* BAROT gets the outline treatment like in Hero */
-        .footer-name--outline {
-          color: transparent;
-          -webkit-text-stroke: 1.5px var(--border-strong);
-        }
-
-        /* ── Bottom bar ── */
-        .footer-bottom {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 6px;
-          padding: clamp(14px,2vw,22px) clamp(20px,5vw,64px) clamp(24px,3.5vw,40px);
-        }
-
-        .footer-meta {
-          font-family: var(--font-body);
-          font-size: clamp(10px, 0.85vw, 12px);
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: var(--fg-muted);
-          margin: 0;
-        }
-
-        /* ── Mobile overrides ── */
         @media (max-width: 640px) {
-          /* Stack nav + socials vertically */
-          .footer-top {
-            flex-direction: column;
-            gap: 28px;
-          }
-
-          /* Tighten link rows on small screens */
-          .footer-link-row {
-            gap: 20px;
-          }
-
-          /* Hide single-line desktop name, show two-line mobile name */
-          .footer-name--desktop { display: none; }
-          .footer-name--mobile  { display: block; }
-
-          /* Bottom bar: stack vertically, left-aligned */
-          .footer-bottom {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 4px;
+          .f1-footer-root {
+            padding-bottom: 72px; /* Touch navbar clearance */
           }
         }
       `}</style>

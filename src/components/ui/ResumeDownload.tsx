@@ -43,54 +43,54 @@ export const ResumeDownload = () => {
           onClick={handleDownload}
           whileHover="animate"
           className="group/file relative block w-full cursor-pointer overflow-hidden rounded-2xl p-10 md:p-14 border transition-colors duration-500"
-          style={{ 
-            backgroundColor: "var(--bg)", 
+          style={{
+            backgroundColor: "var(--bg)",
             borderColor: "var(--border-strong)"
           }}
         >
           <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
             <GridPattern />
           </div>
-          
+
           <div className="flex flex-col items-center justify-center pointer-events-none relative z-20">
             <p className="font-sans text-[clamp(1.5rem,5vw,2.5rem)] font-extrabold tracking-tight" style={{ color: "var(--fg)", fontFamily: "var(--font-display)" }}>
               Grab My Resume
             </p>
             <p className="mt-4 font-sans text-sm md:text-base font-normal max-w-lg text-center leading-relaxed" style={{ color: "var(--fg-muted)", fontFamily: "var(--font-body)" }}>
-              Prefer to have a copy of my experience to go? Click below to download a PDF version of my resume.
+              Prefer to have a copy of my experience to go? Click below to download a PDF version of me.
             </p>
-            
+
             <div className="relative mx-auto mt-12 w-full max-w-[12rem]">
               <motion.div
-                  layoutId="file-download"
-                  variants={mainVariant}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 20,
-                  }}
-                  className={cn(
-                    "relative z-40 mx-auto mt-4 flex h-36 w-full items-center justify-center rounded-xl transition-shadow duration-500",
-                    "shadow-[0px_10px_50px_var(--border-strong)] border group-hover/file:shadow-2xl"
-                  )}
-                  style={{ backgroundColor: "var(--bg)", borderColor: "var(--border-strong)" }}
-                >
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex flex-col items-center gap-3"
-                    style={{ color: "var(--fg-muted)" }}
-                  >
-                    <IconDownload className="h-10 w-10 transition-colors duration-300 group-hover/file:text-[var(--accent)]" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 group-hover/file:text-[var(--accent)]">.PDF</span>
-                  </motion.div>
-                </motion.div>
-
+                layoutId="file-download"
+                variants={mainVariant}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 20,
+                }}
+                className={cn(
+                  "relative z-40 mx-auto mt-4 flex h-36 w-full items-center justify-center rounded-xl transition-shadow duration-500",
+                  "shadow-[0px_10px_50px_var(--border-strong)] border group-hover/file:shadow-2xl"
+                )}
+                style={{ backgroundColor: "var(--bg)", borderColor: "var(--border-strong)" }}
+              >
                 <motion.div
-                  variants={secondaryVariant}
-                  className="absolute inset-0 z-30 mx-auto mt-4 flex h-36 w-full items-center justify-center rounded-xl border border-dashed opacity-0"
-                  style={{ borderColor: "var(--accent)" }}
-                ></motion.div>
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex flex-col items-center gap-3"
+                  style={{ color: "var(--fg-muted)" }}
+                >
+                  <IconDownload className="h-10 w-10 transition-colors duration-300 group-hover/file:text-[var(--accent)]" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 group-hover/file:text-[var(--accent)]">.PDF</span>
+                </motion.div>
+              </motion.div>
+
+              <motion.div
+                variants={secondaryVariant}
+                className="absolute inset-0 z-30 mx-auto mt-4 flex h-36 w-full items-center justify-center rounded-xl border border-dashed opacity-0"
+                style={{ borderColor: "var(--accent)" }}
+              ></motion.div>
             </div>
           </div>
         </motion.button>

@@ -124,7 +124,7 @@ export function WebcamPixelGridDemo() {
           viewport={{ once: true }}
           className="webcam-footer-bottom"
         >
-          <p className="webcam-footer-meta">AI Engineer & Full Stack Developer</p>
+          <p className="webcam-footer-meta">AI Engineer | Full Stack Engineer</p>
           <p className="webcam-footer-meta">© {year} Divy Barot</p>
         </motion.div>
       </div>

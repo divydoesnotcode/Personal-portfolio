@@ -44,6 +44,9 @@ function App() {
   }, [])
 
   useEffect(() => {
+    const isMobileDevice = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window);
+    if (isMobileDevice) return;
+
     const lenis = new Lenis({
       duration: 1.35,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

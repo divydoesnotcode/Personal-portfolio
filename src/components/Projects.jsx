@@ -1,6 +1,7 @@
+"use client";
 import { useState, useRef } from "react";
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "motion/react";
-import { ArrowUpRight, Github } from "lucide-react";
+import { motion, useMotionValue, useTransform, useSpring } from "motion/react";
+import { ArrowUpRight, Github, Activity, TrendingDown, Layers, Terminal } from "lucide-react";
 import { LinkPreview } from "../components/ui/LinkPreview";
 
 const projects = [
@@ -11,8 +12,14 @@ const projects = [
     tech: ["Next.js", "Ollama", "PostgreSQL", "Tailwind CSS"],
     github: "https://github.com/divydoesnotcode/ProcureGenie-Local-LLM",
     year: "2026",
-    tint: { r: 180, g: 83, b: 9 },   // Amber/Terracotta
-    spotColor: "rgba(180,83,9,",
+    color: { r: 217, g: 119, b: 6 }, // Amber
+    metrics: [
+      { label: "MODEL", val: "Llama-3-8B" },
+      { label: "ACCURACY", val: "98.4%" },
+      { label: "LATENCY", val: "<140ms" }
+    ],
+    // SVG mock training loss curve coordinates
+    curve: [90, 75, 45, 30, 22, 14, 10, 8]
   },
   {
     number: "02",
@@ -21,8 +28,14 @@ const projects = [
     tech: ["React", "Tailwind CSS", "OpenWeatherMap API"],
     github: "https://github.com/divydoesnotcode/Weather-app",
     year: "2025",
-    tint: { r: 67, g: 90, b: 72 },   // Muted Sage/Olive
-    spotColor: "rgba(67,90,72,",
+    color: { r: 67, g: 90, b: 72 }, // Sage Green
+    metrics: [
+      { label: "API_GATEWAY", val: "OpenWeather" },
+      { label: "UPTIME", val: "99.9%" },
+      { label: "LATENCY", val: "<80ms" }
+    ],
+    // SVG mock weather prediction validation error curve coordinates
+    curve: [80, 68, 52, 41, 33, 27, 24, 23]
   },
   {
     number: "03",
@@ -30,10 +43,15 @@ const projects = [
     description: "A professional DJ website built with Next.js and Tailwind CSS. It features a sleek, modern design with smooth animations and a user-friendly interface. It also includes a contact form and a gallery of DJ setups.",
     tech: ["Next.js", "Tailwind CSS", "Framer Motion", "Python"],
     github: "https://github.com/divydoesnotcode/djrohan-portfolio",
-    vercel: "https://djrohan-portfolio.vercel.app", // example
     year: "2026",
-    tint: { r: 110, g: 87, b: 115 }, // Muted Plum/Dusty Purple
-    spotColor: "rgba(110,87,115,",
+    color: { r: 110, g: 87, b: 115 }, // Muted Purple
+    metrics: [
+      { label: "CORE", val: "Next.js + Framer" },
+      { label: "SEO_SCORE", val: "100%" },
+      { label: "PERF", val: "98/100" }
+    ],
+    // SVG mock audio compression/loss curve coordinates
+    curve: [95, 80, 60, 48, 38, 29, 21, 15]
   },
   {
     number: "04",
@@ -41,15 +59,21 @@ const projects = [
     description: "First personal portfolio built with React and Framer Motion. Where it all started. A highly interactive React portfolio designed to demonstrate real-world UI thinking and clean component architecture",
     tech: ["React", "Framer", "Tailwind", "Motion", "GSAP"],
     github: "https://github.com/divydoesnotcode/My-portfolio",
-    vercel: "https://divydoesnotcode-portfolio-livid-beta.vercel.app/", // example
+    vercel: "https://divydoesnotcode-portfolio-livid-beta.vercel.app/",
     year: "2024",
-    tint: { r: 122, g: 106, b: 83 }, // Warm Stone/Taupe
-    spotColor: "rgba(122,106,83,",
+    color: { r: 122, g: 106, b: 83 }, // Warm Stone
+    metrics: [
+      { label: "RENDER_RATE", val: "60.0 FPS" },
+      { label: "DOM_REDUCTION", val: "-35%" },
+      { label: "CWV", val: "EXCELLENT" }
+    ],
+    // SVG mock frame optimization render-time drop coordinates
+    curve: [75, 60, 40, 25, 18, 12, 9, 7]
   },
 ];
 
-// ── Liquid Glass Card ──────────────────────────────────────────────────────
-function GlassCard({ project, index }) {
+// ── Interactive Telemetry Grid Card ──
+function TelemetryCard({ project, index }) {
   const cardRef = useRef(null);
   const [hovered, setHovered] = useState(false);
 
@@ -61,12 +85,12 @@ function GlassCard({ project, index }) {
   const springX = useSpring(mouseX, { stiffness: 300, damping: 30 });
   const springY = useSpring(mouseY, { stiffness: 300, damping: 30 });
 
-  // 3-D tilt — subtle, Apple-style (not aggressive)
-  const rotateX = useTransform(springY, [-0.5, 0.5], [3, -3]);
-  const rotateY = useTransform(springX, [-0.5, 0.5], [-4, 4]);
+  // 3-D tilt — subtle, F1 HUD-style
+  const rotateX = useTransform(springY, [-0.5, 0.5], [2.5, -2.5]);
+  const rotateY = useTransform(springX, [-0.5, 0.5], [-3, 3]);
 
-  const { r, g, b } = project.tint;
-  const spot = project.spotColor;
+  const { r, g, b } = project.color;
+  const accent = `rgba(${r},${g},${b},`;
 
   function handleMouseMove(e) {
     const rect = cardRef.current?.getBoundingClientRect();
@@ -81,16 +105,12 @@ function GlassCard({ project, index }) {
     mouseY.set(0);
   }
 
-  // Specular highlight moves with cursor
-  const highlightX = useTransform(springX, [-0.5, 0.5], ["10%", "90%"]);
-  const highlightY = useTransform(springY, [-0.5, 0.5], ["10%", "90%"]);
-
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 32, scale: 0.97 }}
+      initial={{ opacity: 0, y: 32, scale: 0.98 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.7, delay: (index % 2) * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.65, delay: (index % 2) * 0.08, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true, margin: "-40px" }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
@@ -101,101 +121,146 @@ function GlassCard({ project, index }) {
         transformStyle: "preserve-3d",
         perspective: 800,
         transformPerspective: 800,
+        "--accent-r": r,
+        "--accent-g": g,
+        "--accent-b": b,
       }}
-      className="glass-card"
+      className="f1-proj-card"
     >
-      {/* ── Layer 1: ambient tint glow behind the card ── */}
-      <motion.div
-        className="glass-ambient"
-        animate={{ opacity: hovered ? 1 : 0.4 }}
-        transition={{ duration: 0.4 }}
+      {/* 1. Ambient telemetry glow behind card */}
+      <div
+        className="absolute inset-[-12px] rounded-[32px] pointer-events-none z-0 blur-[24px] transition-opacity duration-500"
         style={{
-          background: `radial-gradient(ellipse at 60% 40%, ${spot}0.22) 0%, ${spot}0.04) 70%, transparent 100%)`,
+          opacity: hovered ? 0.3 : 0.1,
+          background: `radial-gradient(ellipse at center, ${accent}0.15) 0%, ${accent}0.02) 65%, transparent 100%)`,
         }}
       />
 
-      {/* ── Layer 2: frosted glass body ── */}
-      <div className="glass-body">
+      {/* 2. Cyber grid surface frame */}
+      <div className="absolute inset-0 z-10 border border-[var(--border)] rounded-2xl pointer-events-none" />
+      <span className="absolute top-0.5 left-2 z-10 font-mono text-[7px] text-[var(--fg-muted)] tracking-widest opacity-40">GRID_SEC // 0{index + 1}</span>
 
-        {/* ── Specular highlight: bright sheen that follows cursor ── */}
-        <motion.div
-          className="glass-specular"
-          style={{
-            background: useTransform(
-              [springX, springY],
-              ([x, y]) =>
-                `radial-gradient(320px circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgba(255,255,255,0.13) 0%, transparent 60%)`
-            ),
-            opacity: hovered ? 1 : 0,
-          }}
-        />
-
-        {/* ── Top edge shine — the Apple "rim light" ── */}
-        <div className="glass-rim" />
-
-        {/* ── Content ── */}
-        <div className="glass-content">
-
-          {/* Header row */}
-          <div className="gc-header">
-            <span className="gc-number" style={{ color: `${spot}0.2)` }}>
-              {project.number}
-            </span>
-            <div className="gc-actions">
-              {project.github && (
-                <LinkPreview
-                  url={project.github}
-                  width={220}
-                  height={138}
-                  className="gc-icon-btn"
-                >
-                  <Github size={16} />
-                </LinkPreview>
-              )}
-              {project.vercel && (
-                <LinkPreview
-                  url={project.vercel}
-                  width={220}
-                  height={138}
-                  className="gc-icon-btn"
-                >
-                  <svg width="12" height="12" viewBox="0 0 76 65" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
-                  </svg>
-                </LinkPreview>
-              )}
-            </div>
-          </div>
-
-          {/* Title */}
-          <h3 className="gc-title">{project.title}</h3>
-
-          {/* Description */}
-          <p className="gc-desc">{project.description}</p>
-
-          {/* Tech chips — glass pill style */}
-          <div className="gc-chips">
-            {project.tech.map((t) => (
-              <span
-                key={t}
-                className="gc-chip"
-                style={{
-                  color: `${spot}0.9)`,
-                  background: `${spot}0.08)`,
-                  borderColor: `${spot}0.18)`,
-                }}
-              >
+      {/* 3. Specs/Metrics Dashboard Header */}
+      <div className="relative z-20 flex justify-between items-start mb-6 border-b border-[var(--border)] pb-4">
+        <div>
+          <span className="font-display text-[clamp(1.8rem,3.5vw,2.4rem)] font-black text-transparent" style={{ WebkitTextStroke: "1px var(--border-strong)" }}>
+            {project.number}
+          </span>
+          <div className="flex gap-1.5 mt-1">
+            {project.tech.slice(0, 2).map((t) => (
+              <span key={t} className="font-mono text-[8px] text-[var(--accent)] bg-[var(--accent-muted)] px-1.5 py-0.5 rounded">
                 {t}
               </span>
             ))}
           </div>
+        </div>
 
-          {/* Footer: year */}
-          <div className="gc-footer">
-            <span className="gc-year">{project.year}</span>
+        {/* Dynamic Telemetry Graph - Loss Curve */}
+        <div className="flex flex-col items-end gap-1">
+          <div className="flex items-center gap-1 font-mono text-[8px] text-[var(--fg-muted)] uppercase tracking-wider">
+            <TrendingDown size={10} className="text-[var(--accent)]" />
+            <span>Loss Curve</span>
+          </div>
+          <svg className="w-20 h-8 opacity-65" viewBox="0 0 100 40">
+            <path
+              d={`M 5,${project.curve[0] / 2.5} 
+                  C 20,${project.curve[2] / 2.5} 40,${project.curve[4] / 2.5} 60,${project.curve[5] / 2.5} 
+                  L 95,${project.curve[7] / 2.5}`}
+              fill="none"
+              stroke={`rgba(${r},${g},${b},0.8)`}
+              strokeWidth="1.5"
+              className="f1-curve-path"
+              style={{ strokeDasharray: 200, strokeDashoffset: hovered ? 0 : 200, transition: "stroke-dashoffset 1.8s ease" }}
+            />
+            {/* Pulsing cursor point at curve end */}
+            <circle cx="95" cy={project.curve[7] / 2.5} r="2" fill={`rgb(${r},${g},${b})`} className="animate-pulse" />
+          </svg>
+        </div>
+      </div>
+
+      {/* 4. Display Content */}
+      <div className="relative z-20 flex-1 flex flex-col justify-between">
+        <div>
+          <h3 className="font-display font-extrabold text-lg text-[var(--fg)] mb-2 leading-snug">
+            {project.title}
+          </h3>
+          <p className="font-sans text-xs text-[var(--fg-muted)] leading-relaxed mb-6">
+            {project.description}
+          </p>
+        </div>
+
+        {/* Telemetry metrics dashboard block */}
+        <div className="grid grid-cols-3 gap-2 border-t border-[var(--border)] pt-4 mb-4">
+          {project.metrics.map((m) => (
+            <div key={m.label} className="flex flex-col">
+              <span className="font-mono text-[7px] text-[var(--fg-muted)] uppercase tracking-widest opacity-60 mb-0.5">{m.label}</span>
+              <span className="font-mono text-[10px] font-bold text-[var(--fg)] tracking-wide">{m.val}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* 5. Footer and Link preview anchors */}
+        <div className="flex justify-between items-center border-t border-[var(--border)] pt-3 mt-auto">
+          <span className="font-mono text-[9px] text-[var(--fg-muted)] uppercase tracking-wider">{project.year} // SYSTEM ACTIVE</span>
+          
+          <div className="flex gap-2">
+            {project.github && (
+              <LinkPreview url={project.github} width={220} height={138} className="f1-action-btn" aria-label="View Github Code">
+                <Github size={14} />
+              </LinkPreview>
+            )}
+            {project.vercel && (
+              <LinkPreview url={project.vercel} width={220} height={138} className="f1-action-btn" aria-label="Launch Live View">
+                <ArrowUpRight size={14} />
+              </LinkPreview>
+            )}
           </div>
         </div>
       </div>
+
+      <style>{`
+        .f1-proj-card {
+          position: relative;
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          padding: 20px;
+          min-height: 360px;
+          display: flex;
+          flex-direction: column;
+          cursor: crosshair;
+          transition: border-color 0.3s ease, box-shadow 0.35s ease;
+          overflow: hidden;
+        }
+        .f1-proj-card:hover {
+          border-color: var(--border-strong);
+          box-shadow: var(--shadow-card);
+        }
+
+        .f1-action-btn {
+          width: 28px;
+          height: 28px;
+          border-radius: 6px;
+          background: var(--bg);
+          border: 1px solid var(--border);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--fg-muted);
+          text-decoration: none;
+          transition: all 0.25s ease;
+        }
+        .f1-action-btn:hover {
+          color: var(--accent);
+          border-color: var(--accent);
+          transform: translateY(-1.5px);
+          background: var(--accent-muted);
+        }
+
+        .f1-curve-path {
+          will-change: stroke-dashoffset;
+        }
+      `}</style>
     </motion.div>
   );
 }
@@ -203,282 +268,95 @@ function GlassCard({ project, index }) {
 // ── Section ────────────────────────────────────────────────────────────────
 export function Projects() {
   return (
-    <section id="projects" className="proj-section" aria-label="Featured Projects">
-
-      {/* Header */}
-      <div className="proj-header">
-        <div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="proj-eyebrow"
-          >
-            Selected Work
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="proj-heading"
-          >
-            Featured <br className="hidden md:block" /> Projects.
-          </motion.h2>
-        </div>
-
-        <motion.a
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          href="https://github.com/divydoesnotcode"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="proj-archive-link"
-        >
-          View Full Archive →
-        </motion.a>
+    <section id="projects" className="f1-projects-section" aria-label="Featured Projects Dashboard">
+      
+      {/* ── Immersive Grid Telemetry background ── */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Horizontal gridlines */}
+        <div className="absolute inset-x-0 top-[30%] h-[1px] bg-[var(--border)]" />
+        
+        {/* Coordinate tick */}
+        <span className="absolute top-[30%] left-[4%] text-[8px] font-mono text-[var(--fg-muted)] opacity-30">+ CH_03_P</span>
       </div>
 
-      {/* Glass card grid */}
-      <div className="proj-grid">
-        {projects.map((project, i) => (
-          <GlassCard key={project.number} project={project} index={i} />
-        ))}
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        
+        {/* Section Header */}
+        <div className="f1-projects-header mb-14 md:mb-16">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="font-mono text-[10px] text-[var(--accent)] uppercase tracking-[0.25em]"
+            >
+              System Grid Position // Selected Case Studies
+            </motion.p>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="f1-projects-heading font-display text-[clamp(2.4rem,6vw,5.5rem)] font-extrabold leading-[0.95] text-[var(--fg)]"
+            >
+              FEATURED <br className="hidden md:block" /> PROJECTS.
+            </motion.h2>
+
+            <motion.a
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 0.8 }}
+              viewport={{ once: true }}
+              href="https://github.com/divydoesnotcode"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="f1-archive-link"
+            >
+              <Terminal size={12} className="inline mr-2 text-[var(--accent)]" />
+              Launch Full Repository Archive →
+            </motion.a>
+          </div>
+        </div>
+
+        {/* Analytics Card Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {projects.map((project, i) => (
+            <TelemetryCard key={project.number} project={project} index={i} />
+          ))}
+        </div>
+
       </div>
 
       <style>{`
-        /* ── Section ── */
-        .proj-section {
-          padding: clamp(64px,8vw,96px) clamp(16px,5vw,48px);
-          max-width: 72rem;
-          margin: 0 auto;
+        .f1-projects-section {
+          position: relative;
+          padding: clamp(64px, 8vw, 96px) 0;
+          background: var(--bg);
         }
 
-        /* ── Header ── */
-        .proj-header {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-          margin-bottom: clamp(36px,5vw,56px);
-        }
-        @media (min-width: 768px) {
-          .proj-header {
-            flex-direction: row;
-            align-items: flex-end;
-            justify-content: space-between;
-          }
+        .f1-projects-heading {
+          letter-spacing: -0.03em;
         }
 
-        .proj-eyebrow {
-          color: var(--accent);
-          font-size: 11px;
-          font-weight: 600;
-          letter-spacing: 0.3em;
-          text-transform: uppercase;
+        .f1-archive-link {
           font-family: var(--font-body);
-          margin: 0 0 14px;
-        }
-        .proj-heading {
-          font-family: var(--font-display);
-          font-size: clamp(2.4rem,6vw,5rem);
-          font-weight: 800;
-          color: var(--fg);
-          line-height: 1.05;
-          letter-spacing: -0.025em;
-          margin: 0;
-        }
-        .proj-archive-link {
-          font-family: var(--font-body);
-          font-size: clamp(12px,1vw,14px);
+          font-size: 13px;
           color: var(--fg-muted);
           text-decoration: none;
           border-bottom: 1px solid var(--border);
-          padding-bottom: 2px;
-          transition: color 0.22s, border-color 0.22s;
-          white-space: nowrap;
+          padding-bottom: 4px;
+          transition: all 0.22s ease;
           align-self: flex-start;
-        }
-        @media (min-width: 768px) {
-          .proj-archive-link { align-self: flex-end; }
-        }
-        .proj-archive-link:hover {
-          color: var(--fg);
-          border-color: var(--border-strong);
-        }
-
-        /* ── Grid ── */
-        .proj-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: clamp(16px,2.5vw,24px);
-        }
-        @media (min-width: 640px) {
-          .proj-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        /* ── Glass card wrapper ── */
-        .glass-card {
-          position: relative;
-          border-radius: 28px;
-          cursor: pointer;
-          /* Reserve space for the ambient glow to bleed outside */
-          padding: 2px;
-        }
-
-        /* ── Ambient glow (bleeds outside card bounds) ── */
-        .glass-ambient {
-          position: absolute;
-          inset: -20px;
-          border-radius: 48px;
-          pointer-events: none;
-          z-index: 0;
-          filter: blur(24px);
-        }
-
-        /* ── Frosted glass body ── */
-        .glass-body {
-          position: relative;
-          z-index: 1;
-          border-radius: 26px;
-          overflow: hidden;
-          /* The core Liquid Glass material */
-          background: var(--bg-card);
-          backdrop-filter: none;
-          -webkit-backdrop-filter: none;
-          border: 1px solid var(--border);
-          box-shadow: var(--shadow-card);
-          transition: box-shadow 0.4s ease, border-color 0.4s ease;
-          min-height: 340px;
-          display: flex;
-          flex-direction: column;
-        }
-        .glass-card:hover .glass-body {
-          border-color: var(--border-strong);
-          box-shadow: var(--shadow-card-hover);
-        }
-
-          /* ── Card content ── */
-        .glass-content {
-          position: relative;
-          z-index: 4;
-          padding: clamp(20px,2.5vw,28px);
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .gc-header {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          margin-bottom: clamp(16px,2vw,24px);
-        }
-
-        .gc-number {
-          font-family: var(--font-display);
-          font-size: clamp(3rem,6vw,5rem);
-          font-weight: 800;
-          line-height: 1;
-          user-select: none;
-          color: transparent;
-          -webkit-text-stroke: 1px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.15);
-        }
-
-        .gc-actions {
-          display: flex;
-          gap: 8px;
-        }
-
-        /* Icon button: glass pill */
-        .gc-icon-btn,
-        .gc-actions a.gc-icon-btn {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: var(--bg-card);
-          border: 1px solid var(--border);
-          display: flex;
+          display: inline-flex;
           align-items: center;
-          justify-content: center;
-          color: var(--fg-muted);
-          text-decoration: none;
-          transition: background 0.22s, color 0.22s, border-color 0.22s, transform 0.2s;
-          backdrop-filter: blur(8px);
         }
-        .gc-icon-btn:hover,
-        .gc-actions a.gc-icon-btn:hover {
-          background: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1);
-          border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.3);
-          color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 1);
-          transform: scale(1.08);
-        }
-
-        .gc-title {
-          font-family: var(--font-display);
-          font-size: clamp(1.2rem,2.2vw,1.5rem);
-          font-weight: 700;
-          color: var(--fg);
-          margin: 0 0 10px;
-          line-height: 1.25;
-        }
-
-        .gc-desc {
-          font-family: var(--font-body);
-          font-size: clamp(12px,1vw,13.5px);
-          color: var(--fg-muted);
-          line-height: 1.7;
-          margin: 0 0 20px;
-          flex: 1;
-        }
-
-        /* Tech chips — frosted pill */
-        .gc-chips {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 6px;
-          margin-bottom: 16px;
-        }
-
-        .gc-chip {
-          font-family: var(--font-body);
-          font-size: 10px;
-          font-weight: 600;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          padding: 4px 10px;
-          border-radius: 100px;
-          border: 1px solid;
-          backdrop-filter: blur(8px);
-          transition: background 0.2s, border-color 0.2s;
-          background: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.05);
-        }
-
-        .gc-footer {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          border-top: 1px solid var(--border);
-          padding-top: 12px;
-          margin-top: auto;
-        }
-
-        .gc-year {
-          font-family: var(--font-body);
-          font-size: 11px;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          color: var(--fg-muted);
-        }
-
-        /* Mobile: ensure cards don't have 3d tilt on touch */
-        @media (hover: none) {
-          .glass-card {
-            transform: none !important;
-          }
-          .glass-specular {
-            display: none;
-          }
+        .f1-archive-link:hover {
+          color: var(--accent);
+          border-color: var(--accent);
+          transform: translateY(-1px);
         }
       `}</style>
     </section>

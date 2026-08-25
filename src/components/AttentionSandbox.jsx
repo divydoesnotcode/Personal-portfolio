@@ -593,6 +593,16 @@ export function AttentionSandbox() {
           flex: 1;
         }
 
+        @media (max-width: 640px) {
+          .bipartite-container {
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+          }
+          .bipartite-wires {
+            display: none !important;
+          }
+        }
+
         .bipartite-side {
           display: flex;
           flex-direction: column;
