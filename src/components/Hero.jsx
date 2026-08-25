@@ -157,7 +157,7 @@ export function Hero() {
               initial={{ y: "105%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(3.5rem,14vw,11.5rem)] font-display font-extrabold tracking-[-0.04em] text-[var(--fg)]"
+              className="text-[clamp(3.5rem,14vw,11.5rem)] font-display font-normal tracking-[0.03em] text-[var(--fg)]"
             >
               DIVY
             </motion.h1>
@@ -167,7 +167,7 @@ export function Hero() {
               initial={{ y: "105%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(3.5rem,14vw,11.5rem)] font-display font-extrabold tracking-[-0.04em]"
+              className="text-[clamp(3.5rem,14vw,11.5rem)] font-display font-normal tracking-[0.03em]"
               style={{
                 WebkitTextStroke: "clamp(1.5px,0.18vw,3.5px) var(--border-strong)",
                 color: "transparent",
@@ -250,7 +250,24 @@ export function Hero() {
           }
 
           .hero-center-panel {
+            width: 100%;
+            max-width: 100%;
             padding-bottom: 60px;
+          }
+        }
+
+        /* Beat the global mobile h1 cap so the name stays display-scale */
+        @media (max-width: 768px) {
+          .name-block {
+            width: 100%;
+          }
+
+          .name-block h1 {
+            font-size: clamp(3.75rem, 20vw, 6.5rem);
+            letter-spacing: 0.02em;
+            line-height: 0.84;
+            white-space: nowrap;
+            max-width: 100%;
           }
         }
 

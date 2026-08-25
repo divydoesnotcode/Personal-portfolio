@@ -40,13 +40,13 @@ export function Footer() {
 
   return (
     <footer className="f1-footer-root">
-      
+
       {/* ── Geometric Telemetry Grid System ── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Horizontal gridlines */}
         <div className="absolute inset-x-0 top-0 h-[1px] bg-[var(--border-strong)]" />
         <div className="absolute inset-x-0 bottom-[60px] h-[1px] bg-[var(--border)]" />
-        
+
         {/* Vertical gridlines */}
         <div className="absolute inset-y-0 left-[10%] w-[1px] bg-[var(--border)]" />
         <div className="absolute inset-y-0 right-[10%] w-[1px] bg-[var(--border)]" />
@@ -57,10 +57,10 @@ export function Footer() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
-        
+
         {/* ── Top Control HUD ── */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-          
+
           {/* Brand/Telemetry Column */}
           <div className="flex flex-col gap-4">
             <span className="text-[10px] font-mono text-[var(--accent)] uppercase tracking-[0.25em]">System Status</span>
@@ -122,7 +122,7 @@ export function Footer() {
             viewport={{ once: true }}
             className="f1-tagline font-display text-[clamp(1.4rem,4.5vw,3.2rem)] font-extrabold leading-[1.1] text-[var(--fg)] max-w-5xl mx-auto tracking-tight"
           >
-            "Leveraging Discipline, avoiding Distractions and building myself through Execution and Failures."
+            "LEVERAGING DISCIPLINE, AVOIDING DISTRACTIONS AND BUILDING MYSELF THROUGH EXECUTION AND FAILURES."
           </motion.p>
         </div>
 
@@ -132,7 +132,7 @@ export function Footer() {
             <ShieldCheck size={12} className="text-emerald-500" />
             <span>AI ENGINE PROV // COMPILING OK</span>
           </div>
-          
+
           <div className="flex items-center gap-8 text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--fg-muted)]">
             <span>© {year} DIVY BAROT</span>
             <span>GRID_LOC // 23.03_N 72.57_E</span>

@@ -1,12 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&display=swap');
 @import "tailwindcss";
+
+@theme {
+    --font-display: "Fraunces", "Times New Roman", serif;
+    --font-sans: "Courier Prime", "Courier New", ui-monospace, monospace;
+    --font-mono: "Courier Prime", "Courier New", ui-monospace, monospace;
+    --tracking-wide: 0.08em;
+    --tracking-wider: 0.12em;
+    --tracking-widest: 0.18em;
+    --text-xs: 0.8125rem;
+    --text-xs--line-height: 1.7;
+    --text-sm: 0.9375rem;
+    --text-sm--line-height: 1.7;
+    --font-weight-semibold: 400;
+    --font-weight-extrabold: 500;
+    --font-weight-black: 500;
+}
 
 /* ── Design Tokens ───────────────────────────────────────────── */
 :root {
 
-    --font-display: 'Syne', sans-serif;
+    --font-display: "Fraunces", "Times New Roman", serif;
 
-    --font-body: 'DM Sans', sans-serif;
+    --font-body: "Courier Prime", "Courier New", ui-monospace, monospace;
 
     --accent: #D97706;
 
@@ -61,10 +77,13 @@ body {
     margin: 0;
     background: var(--bg);
     font-family: var(--font-body);
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
     color: var(--fg);
-    line-height: 1.6;
+    letter-spacing: 0.06em;
+    line-height: 1.7;
     overflow-x: clip;
 }
 
@@ -78,11 +97,58 @@ body {
 
 h1,
 h2,
-h3,
-h4,
 .display {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    font-optical-sizing: auto;
+    letter-spacing: 0.02em;
+    font-weight: 500;
+}
+
+h3,
+h4 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+}
+
+.font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+}
+
+/* Body / supporting copy — Hermes-style technical editorial */
+p,
+li,
+.font-sans {
+    font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: 0.07em;
+    line-height: 1.75;
+}
+
+/* HUD / metadata */
+.font-mono {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    line-height: 1.65;
+}
+
+/* Tiny HUD labels — technical tracking, never cramped */
+[class*="text-[7px]"],
+[class*="text-[8px]"],
+[class*="text-[9px]"],
+[class*="text-[10px]"] {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    line-height: 1.7;
+}
+
+[class*="tracking-[0.2"],
+[class*="tracking-[0.25"] {
+    letter-spacing: 0.18em;
 }
 
 @media (max-width: 768px) {
@@ -96,6 +162,13 @@ h4,
 
     h3 {
         font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    p,
+    li,
+    .font-sans {
+        letter-spacing: 0.055em;
+        line-height: 1.8;
     }
 }
 
