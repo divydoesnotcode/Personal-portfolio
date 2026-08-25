@@ -277,7 +277,7 @@ export function Skills() {
             viewport={{ once: true }}
             className="f1-skills-heading font-display text-[clamp(2.4rem,6vw,5.5rem)] font-extrabold leading-[0.95] text-[var(--fg)]"
           >
-            SYSTEM ENGINE <br className="hidden md:block" /> CALIBRATION.
+            MY <br className="hidden md:block" /> CALIBRATION.
           </motion.h2>
 
           <motion.p
