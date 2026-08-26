@@ -52,8 +52,8 @@ export function Footer() {
         <div className="absolute inset-y-0 right-[10%] w-[1px] bg-[var(--border)]" />
 
         {/* Coordinate points */}
-        <span className="absolute top-2 left-[10%] translate-x-[-50%] text-[8px] font-mono text-[var(--fg-muted)] opacity-40">+ F1_GRID</span>
-        <span className="absolute top-2 right-[10%] translate-x-[50%] text-[8px] font-mono text-[var(--fg-muted)] opacity-40">+ F1_GRID</span>
+        {/* <span className="absolute top-2 left-[10%] translate-x-[-50%] text-[8px] font-mono text-[var(--fg-muted)] opacity-40">+ F1_GRID</span>
+        <span className="absolute top-2 right-[10%] translate-x-[50%] text-[8px] font-mono text-[var(--fg-muted)] opacity-40">+ F1_GRID</span> */}
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
@@ -62,7 +62,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
 
           {/* Brand/Telemetry Column */}
-          <div className="flex flex-col gap-4">
+          {/* <div className="flex flex-col gap-4">
             <span className="text-[10px] font-mono text-[var(--accent)] uppercase tracking-[0.25em]">System Status</span>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -71,7 +71,7 @@ export function Footer() {
             <p className="text-xs text-[var(--fg-muted)] leading-relaxed mt-2 font-sans">
               Designed around telemetry frameworks and high-performance computing design specs. Re-engineering visual storytelling.
             </p>
-          </div>
+          </div> */}
 
           {/* Navigation Anchors Column */}
           <div className="flex flex-col gap-4">
