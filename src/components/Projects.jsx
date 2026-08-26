@@ -137,8 +137,8 @@ function TelemetryCard({ project, index }) {
       />
 
       {/* 2. Cyber grid surface frame */}
-      <div className="absolute inset-0 z-10 border border-[var(--border)] rounded-2xl pointer-events-none" />
-      <span className="absolute top-0.5 left-2 z-10 font-mono text-[7px] text-[var(--fg-muted)] tracking-widest opacity-40">GRID_SEC // 0{index + 1}</span>
+      {/* <div className="absolute inset-0 z-10 border border-[var(--border)] rounded-2xl pointer-events-none" />
+      <span className="absolute top-0.5 left-2 z-10 font-mono text-[7px] text-[var(--fg-muted)] tracking-widest opacity-40">GRID_SEC // 0{index + 1}</span> */}
 
       {/* 3. Specs/Metrics Dashboard Header */}
       <div className="relative z-20 flex justify-between items-start mb-6 border-b border-[var(--border)] pb-4">
@@ -202,7 +202,7 @@ function TelemetryCard({ project, index }) {
         {/* 5. Footer and Link preview anchors */}
         <div className="flex justify-between items-center border-t border-[var(--border)] pt-3 mt-auto">
           <span className="font-mono text-[9px] text-[var(--fg-muted)] uppercase tracking-wider">{project.year} // SYSTEM ACTIVE</span>
-          
+
           <div className="flex gap-2">
             {project.github && (
               <LinkPreview url={project.github} width={220} height={138} className="f1-action-btn" aria-label="View Github Code">
@@ -269,18 +269,18 @@ function TelemetryCard({ project, index }) {
 export function Projects() {
   return (
     <section id="projects" className="f1-projects-section" aria-label="Featured Projects Dashboard">
-      
+
       {/* ── Immersive Grid Telemetry background ── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Horizontal gridlines */}
         <div className="absolute inset-x-0 top-[30%] h-[1px] bg-[var(--border)]" />
-        
+
         {/* Coordinate tick */}
         <span className="absolute top-[30%] left-[4%] text-[8px] font-mono text-[var(--fg-muted)] opacity-30">+ CH_03_P</span>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        
+
         {/* Section Header */}
         <div className="f1-projects-header mb-14 md:mb-16">
           <div className="flex items-center gap-2 mb-3">

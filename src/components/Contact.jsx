@@ -38,13 +38,13 @@ export function Contact() {
       <div className="relative z-10 max-w-4xl mx-auto">
 
         {/* Telemetry connection status indicator */}
-        <div className="flex items-center justify-center gap-2 mb-6">
+        {/* <div className="flex items-center justify-center gap-2 mb-6">
           <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--surface)] border border-[var(--border)] rounded-full text-[10px] font-mono text-[var(--fg-muted)] tracking-wider">
             <Activity size={10} className="text-[var(--accent)]" />
             <span>CONNECTION_PING // {ping}ms</span>
           </div>
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-        </div>
+        </div> */}
 
         {/* Big Outlined Headers */}
         <div className="text-center mb-10 select-none">

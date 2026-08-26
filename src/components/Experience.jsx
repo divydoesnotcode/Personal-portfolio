@@ -31,7 +31,7 @@ const experiences = [
     description:
       "First three months on the procurement team. Ramped on the React, Node, and PostgreSQL stack and shipped production UI and API work that converted into a full-time seat.",
     points: [
-      "Owned day-to-day feature delivery across the multi-tenant portal — frontend surfaces and REST APIs — while learning the procurement domain.",
+      "Built ProcureGenie, a local-LLM vendor discovery system: FastAPI + PostgreSQL first, Ollama only on a miss, results validated with Pydantic and persisted for reuse.",
       "Stood up local LLM experiments with Ollama so later production AI features already had a working integration path.",
       "Converted to Full Stack Engineer after three months on the strength of that delivery, not a timed rotation.",
     ],
@@ -57,13 +57,13 @@ const experiences = [
     lap: "LAP_02",
     year: "2023 — 2026",
     title: "B.E. Computer Science - AI/ML",
-    company: "New L.J. Institute of Engineering and Technology",
+    company: "Gujarat Technological University",
     type: "ACADEMIC_CALIBRATION",
     color: { r: 67, g: 90, b: 72 }, // Sage Green
     description:
       "B.E. in Computer Science with an AI/ML specialization at New L.J. Institute (GTU) — 9.23 CGPA. Coursework in AI, ML, deep learning, computer vision, and DevOps, used as a lab for real products rather than a transcript checklist.",
     points: [
-      "Built ProcureGenie, a local-LLM vendor discovery system: FastAPI + PostgreSQL first, Ollama only on a miss, results validated with Pydantic and persisted for reuse.",
+      "Built a production-ready AI-powered EV Charging station locator with Java and Springboot, and using API for AI-powered route optimization and station availability prediction.",
       "Shipped the React (Vite) frontend with a dual-mode search toggle between database lookups and live AI generation.",
       "Ran freelance and internship work in parallel with the degree, so models, APIs, and deploys landed on real clients — not just lab notebooks.",
     ],
@@ -73,7 +73,7 @@ const experiences = [
     lap: "LAP_01",
     year: "2020 — 2023",
     title: "Diploma in Computer Engineering",
-    company: "R. C. Technical Institute",
+    company: "Gujarat Technological University",
     type: "ACADEMIC_CALIBRATION",
     color: { r: 122, g: 106, b: 83 }, // Warm Stone
     description:
@@ -168,10 +168,10 @@ function TimelineEntry({ exp, index }) {
           >
             {exp.type}
           </span>
-          <div className="flex items-center gap-1 text-[8px] font-mono text-[var(--fg-muted)] opacity-60">
+          {/* <div className="flex items-center gap-1 text-[8px] font-mono text-[var(--fg-muted)] opacity-60">
             <Calendar size={10} className="text-[var(--accent)]" />
             <span>CALIBRATED // OK</span>
-          </div>
+          </div> */}
         </div>
 
         {/* Title & Organization */}

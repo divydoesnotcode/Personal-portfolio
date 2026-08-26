@@ -122,7 +122,7 @@ export function Hero() {
             <span className="text-[var(--accent)]">ACTIVE SCAN // ON</span>
           </div>
 
-          <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+          {/* <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" /> */}
         </div>
       </div>
 
@@ -132,7 +132,7 @@ export function Hero() {
         className="hero-center-panel z-10"
       >
         {/* Dynamic telemetry scanning ticker */}
-        <div className="mb-6 flex items-center justify-center gap-3">
+        {/* <div className="mb-6 flex items-center justify-center gap-3">
           <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--surface)] border border-[var(--border)] rounded-full text-[10px] font-mono text-[var(--fg-muted)] tracking-wider">
             <Cpu size={12} className="text-[var(--accent)] animate-spin-slow" />
             <AnimatePresence mode="wait">
@@ -148,7 +148,7 @@ export function Hero() {
             </AnimatePresence>
           </div>
           <span className="text-[9px] font-mono text-[var(--accent)] uppercase tracking-widest animate-pulse">Telemetry Online</span>
-        </div>
+        </div> */}
 
         {/* Cinematic Hollow Outline Headers */}
         <div className="name-block leading-[0.82] select-none">
@@ -181,8 +181,7 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.4 }}
           className="mt-6 max-w-xl mx-auto text-sm sm:text-base font-normal tracking-wide text-[var(--fg-muted)] leading-relaxed font-sans"
         >
-          AI &amp; Machine Learning Engineer specializing in designing context-engineered LLMs,
-          open-source orchestration architectures, and robust full-stack software systems.
+          AI &amp; Full-Stack Engineer
         </motion.p>
 
         {/* HUD Interactive Trigger Buttons */}

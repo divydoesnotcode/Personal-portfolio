@@ -135,7 +135,7 @@ function EngineCard({ category, index }) {
 
         {/* Dynamic status stats indicator */}
         <div className="flex flex-col items-end">
-          <span className="font-mono text-[9px] text-[var(--accent)] font-bold">CALIBRATED_OK</span>
+          {/* <span className="font-mono text-[9px] text-[var(--accent)] font-bold">CALIBRATED_OK</span> */}
           <span className="font-mono text-[7px] text-[var(--fg-muted)] tracking-widest uppercase opacity-55">{category.skills.length} nodes</span>
         </div>
       </div>
@@ -266,7 +266,7 @@ export function Skills() {
               viewport={{ once: true }}
               className="font-mono text-[10px] text-[var(--accent)] uppercase tracking-[0.25em]"
             >
-              Engine Calibration // Technical Profiles
+              My Calibrations // Technical Profiles
             </motion.p>
           </div>
 
