@@ -5,13 +5,13 @@ export function normalizeSource(value) {
 
 export function getArrivalTimings(source, reducedMotion) {
   if (reducedMotion) {
-    return { revealMs: 0, readyMs: 0, pulse: false };
+    return { timeScale: 1, pulse: false, skip: true };
   }
   if (source === "nfc") {
-    return { revealMs: 720, readyMs: 980, pulse: true };
+    return { timeScale: 1, pulse: true, skip: false };
   }
   if (source === "qr") {
-    return { revealMs: 520, readyMs: 740, pulse: true };
+    return { timeScale: 1.16, pulse: true, skip: false };
   }
-  return { revealMs: 140, readyMs: 260, pulse: false };
+  return { timeScale: 1.32, pulse: true, skip: false };
 }

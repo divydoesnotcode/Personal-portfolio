@@ -36,15 +36,16 @@ html.is-connect #root {
 
 .connect-glow {
   position: absolute;
-  top: 12%;
+  top: 8%;
   left: 50%;
-  width: 280px;
-  height: 280px;
+  width: 320px;
+  height: 320px;
   transform: translateX(-50%);
   background: radial-gradient(circle, var(--accent-muted) 0%, transparent 70%);
   filter: blur(48px);
   opacity: 0.85;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .connect-shell {
@@ -67,9 +68,23 @@ html.is-connect #root {
 
 .connect-mark-wrap {
   position: relative;
-  width: 88px;
-  height: 88px;
-  margin: 0 auto 28px;
+  width: 168px;
+  height: 168px;
+  margin: 0 auto 8px;
+  display: grid;
+  place-items: center;
+  perspective: 900px;
+  transform-style: preserve-3d;
+}
+
+.connect-orbit {
+  position: absolute;
+  inset: 0;
+  width: 168px;
+  height: 168px;
+  color: var(--accent);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .connect-rings {
@@ -82,51 +97,72 @@ html.is-connect #root {
 
 .connect-rings span {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 0;
+  top: 0;
   width: 88px;
   height: 88px;
+  margin: -44px 0 0 -44px;
   border: 1px solid var(--accent);
   border-radius: 50%;
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.92);
+  transform-origin: 50% 50%;
 }
 
-.connect-page.is-pulse .connect-rings span:nth-child(1) {
-  animation: connect-ring 900ms ease-out 160ms forwards;
+.connect-node {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-muted);
+  pointer-events: none;
 }
 
-.connect-page.is-pulse .connect-rings span:nth-child(2) {
-  animation: connect-ring 900ms ease-out 280ms forwards;
-}
-
-.connect-page.is-pulse .connect-rings span:nth-child(3) {
-  animation: connect-ring 900ms ease-out 400ms forwards;
+.connect-bridge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 1px;
+  margin: -0.5px 0 0 -22px;
+  background: var(--accent);
+  transform-origin: center;
+  pointer-events: none;
+  opacity: 0;
 }
 
 .connect-mark {
   position: relative;
   width: 88px;
   height: 88px;
-  opacity: 0;
-  transform: scale(0.92);
+  transform-origin: center center;
+  will-change: transform, opacity;
 }
 
-.connect-page.is-arrival .connect-mark,
-.connect-page.is-reveal .connect-mark,
-.connect-page.is-ready .connect-mark {
-  animation: connect-mark-in 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.connect-mark img {
+.connect-mark svg {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 18px;
+  overflow: visible;
 }
 
 .connect-copy {
   text-align: center;
+}
+
+.connect-kicker-stack {
+  position: relative;
+  height: 28px;
+  margin: 4px 0 8px;
+}
+
+.connect-kicker-stack .connect-kicker {
+  position: absolute;
+  inset: 0;
+  margin: 0;
 }
 
 .connect-kicker {
@@ -137,6 +173,10 @@ html.is-connect #root {
   text-transform: uppercase;
   color: var(--fg-muted);
   text-align: center;
+}
+
+.connect-kicker-card {
+  margin-top: 18px;
 }
 
 .connect-name {
@@ -150,6 +190,27 @@ html.is-connect #root {
   letter-spacing: 0.03em;
   line-height: 0.88;
   text-transform: uppercase;
+}
+
+.connect-name-line {
+  display: block;
+}
+
+.connect-char-clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  white-space: nowrap;
+}
+
+.connect-role .connect-char-clip + .connect-char-clip {
+  margin-left: 0.35em;
+}
+
+.connect-char,
+.connect-word {
+  display: inline-block;
+  will-change: transform;
 }
 
 .connect-role {
@@ -176,6 +237,8 @@ html.is-connect #root {
 
 .connect-btn {
   appearance: none;
+  position: relative;
+  isolation: isolate;
   width: 100%;
   min-height: 52px;
   padding: 14px 20px;
@@ -191,11 +254,18 @@ html.is-connect #root {
   justify-content: center;
   gap: 8px;
   border: 1px solid transparent;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  overflow: visible;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-.connect-btn:active {
-  transform: scale(0.98);
+.connect-btn-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .connect-btn-primary {
@@ -261,7 +331,7 @@ html.is-connect #root {
   font-family: var(--font-body);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 
 .connect-link:hover {
@@ -270,14 +340,20 @@ html.is-connect #root {
   background: var(--accent-muted);
 }
 
-.connect-link:active {
-  transform: scale(0.98);
-}
-
 .connect-section {
+  position: relative;
   margin-top: 56px;
   padding-top: 28px;
-  border-top: 1px solid var(--border);
+}
+
+.connect-section-rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  transform-origin: left center;
 }
 
 .connect-section h2 {
@@ -416,18 +492,17 @@ html.is-connect #root {
   color: var(--fg-muted);
 }
 
-.connect-reveal {
+.connect-page.is-motion .connect-glow,
+.connect-page.is-motion .connect-mark,
+.connect-page.is-motion .connect-orbit,
+.connect-page.is-motion .connect-node,
+.connect-page.is-motion .connect-bridge,
+.connect-page.is-motion .connect-kicker,
+.connect-page.is-motion .connect-copy,
+.connect-page.is-motion .connect-actions,
+.connect-page.is-motion .connect-section,
+.connect-page.is-motion .connect-footer {
   opacity: 0;
-  transform: translateY(8px);
-}
-
-.connect-page.is-reveal .connect-reveal,
-.connect-page.is-ready .connect-reveal {
-  animation: connect-card-in 480ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.connect-page.is-ready .connect-reveal {
-  animation-delay: 0ms;
 }
 
 .connect-page a:focus-visible,
@@ -456,37 +531,14 @@ html.is-connect #root {
   }
 }
 
-@keyframes connect-mark-in {
-  from {
-    opacity: 0;
-    transform: scale(0.92);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes connect-ring {
-  0% {
-    opacity: 0.45;
-    transform: translate(-50%, -50%) scale(0.92);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.55);
-  }
-}
-
-@keyframes connect-card-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.connect-page.is-reduced .connect-orbit,
+.connect-page.is-reduced .connect-rings,
+.connect-page.is-reduced .connect-node,
+.connect-page.is-reduced .connect-bridge,
+.connect-page.is-reduced .connect-shine,
+.connect-page.is-reduced .connect-btn-pulse,
+.connect-page.is-reduced .connect-kicker[data-connect="kicker-connected"] {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -499,13 +551,36 @@ html.is-connect #root {
     scroll-behavior: auto !important;
   }
 
+  .connect-orbit,
+  .connect-rings,
+  .connect-node,
+  .connect-bridge,
+  .connect-shine,
+  .connect-btn-pulse {
+    display: none;
+  }
+
+  .connect-kicker-stack .connect-kicker[data-connect="kicker-connected"] {
+    display: none;
+  }
+
+  .connect-kicker-stack .connect-kicker[data-connect="kicker-meet"],
   .connect-mark,
-  .connect-reveal {
+  .connect-copy,
+  .connect-actions,
+  .connect-section,
+  .connect-footer,
+  .connect-glow {
     opacity: 1;
     transform: none;
   }
 
-  .connect-rings span {
-    display: none;
+  .connect-section-rule {
+    transform: scaleX(1);
+  }
+
+  .connect-char,
+  .connect-word {
+    transform: none;
   }
 }

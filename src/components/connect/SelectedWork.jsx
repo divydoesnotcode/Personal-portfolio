@@ -3,13 +3,15 @@ import { track } from "../../lib/analytics";
 
 export function SelectedWork({ source }) {
   return (
-    <section className="connect-section" aria-labelledby="connect-work-heading">
+    <section className="connect-section" data-connect="section" aria-labelledby="connect-work-heading">
+      <span className="connect-section-rule" aria-hidden="true" />
       <h2 id="connect-work-heading">Selected Work</h2>
       <ul className="connect-work">
         {selectedWork.map((project) => (
           <li key={project.title}>
             <a
               className="connect-work-item"
+              data-connect="work-item"
               href={project.href}
               target="_blank"
               rel="noopener noreferrer"
@@ -20,7 +22,9 @@ export function SelectedWork({ source }) {
                 <p className="connect-work-copy">{project.description}</p>
                 <p className="connect-work-meta">{project.category}</p>
               </div>
-              <span className="connect-work-go">View</span>
+              <span className="connect-work-go" data-connect="work-go">
+                View
+              </span>
             </a>
           </li>
         ))}

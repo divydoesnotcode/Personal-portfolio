@@ -12,7 +12,7 @@ export default defineConfig({
           // Split vendor libraries into separate chunks
           'react-vendor': ['react', 'react-dom'],
           'motion-vendor': ['motion', 'framer-motion'],
-          'gsap-vendor': ['gsap', '@gsap/react'],
+          'gsap-vendor': ['gsap', 'gsap/ScrollTrigger', 'gsap/CustomEase', '@gsap/react'],
           'lenis-vendor': ['lenis'],
         }
       }

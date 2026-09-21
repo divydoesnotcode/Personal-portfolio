@@ -37,7 +37,13 @@ export function SavePdfButton({ source }) {
   }
 
   return (
-    <button type="button" className="connect-btn connect-btn-secondary" onClick={handleClick}>
+    <button
+      type="button"
+      className="connect-btn connect-btn-secondary"
+      data-connect="save-pdf"
+      data-connect-magnetic
+      onClick={handleClick}
+    >
       Save PDF
     </button>
   );

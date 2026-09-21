@@ -46,7 +46,7 @@ const LINKS = [
 
 export function ContactActions({ source }) {
   return (
-    <div className="connect-actions" id="connect-actions">
+    <div className="connect-actions" id="connect-actions" data-connect="actions">
       <SaveContactButton source={source} />
       <SavePdfButton source={source} />
       <nav className="connect-links" aria-label="Contact links">
@@ -55,6 +55,8 @@ export function ContactActions({ source }) {
             key={link.id}
             href={link.href}
             className="connect-link"
+            data-connect="link"
+            data-connect-magnetic
             target={link.external ? "_blank" : undefined}
             rel={link.external ? "noopener noreferrer" : undefined}
             onClick={() => track(link.event, { source })}

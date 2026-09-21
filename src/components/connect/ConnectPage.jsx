@@ -1,8 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { useSearchParams } from "react-router-dom";
+
+gsap.registerPlugin(useGSAP);
 import { profile, SITE_URL } from "../../data/profile";
 import { track } from "../../lib/analytics";
 import { getArrivalTimings, normalizeSource } from "../../lib/connect";
+import { playConnectMotion } from "../../lib/connect-motion";
 import { ArrivalMark } from "./ArrivalMark";
 import { ContactActions } from "./ContactActions";
 import { IdentityCard } from "./IdentityCard";
@@ -108,6 +113,7 @@ export default function ConnectPage() {
     [source, reducedMotion]
   );
   const [stage, setStage] = useState(reducedMotion ? "ready" : "arrival");
+  const rootRef = useRef(null);
 
   useConnectMeta();
 
@@ -122,49 +128,54 @@ export default function ConnectPage() {
     if (source === "qr") track("connect_source_qr");
   }, [source]);
 
-  useEffect(() => {
-    if (reducedMotion) return undefined;
-
-    const revealTimer = window.setTimeout(() => setStage("reveal"), timings.revealMs);
-    const readyTimer = window.setTimeout(() => setStage("ready"), timings.readyMs);
-    return () => {
-      window.clearTimeout(revealTimer);
-      window.clearTimeout(readyTimer);
-    };
-  }, [reducedMotion, timings]);
-
-  const pulse = timings.pulse && stage !== "ready";
-  const kicker = stage === "arrival" ? "Connected." : "Nice to meet you.";
+  useGSAP(
+    () => {
+      if (!rootRef.current) return undefined;
+      return playConnectMotion(rootRef.current, {
+        reducedMotion,
+        timeScale: timings.timeScale,
+        pulse: timings.pulse,
+        onReady: () => setStage("ready"),
+      });
+    },
+    { scope: rootRef, dependencies: [reducedMotion, timings, source] }
+  );
 
   return (
-    <div className={`connect-page is-${stage}${pulse ? " is-pulse" : ""}`}>
+    <div
+      ref={rootRef}
+      className={`connect-page is-${stage}${reducedMotion ? " is-reduced" : " is-motion"}`}
+    >
       <a className="connect-skip" href="#connect-actions">
         Skip to actions
       </a>
-      <div className="connect-glow" aria-hidden="true" />
+      <div className="connect-glow" data-connect="glow" aria-hidden="true" />
       <div className="connect-shell">
         <section className="connect-hero" aria-label="Digital contact card">
-          <ArrivalMark pulse={pulse} />
-          <p className="connect-kicker">
-            {kicker}
-          </p>
-          <div className="connect-reveal">
-            <IdentityCard />
-            <p className="connect-kicker" style={{ marginTop: 18 }}>
-              Digital contact card
+          <ArrivalMark />
+          <div className="connect-kicker-stack" aria-live="polite">
+            <p className="connect-kicker" data-connect="kicker-connected">
+              Connected.
             </p>
-            <ContactActions source={source} />
+            <p className="connect-kicker" data-connect="kicker-meet">
+              Nice to meet you.
+            </p>
           </div>
+          <IdentityCard />
+          <p className="connect-kicker connect-kicker-card" data-connect="kicker-card">
+            Digital contact card
+          </p>
+          <ContactActions source={source} />
         </section>
 
-        <div className="connect-reveal">
-          <Introduction />
-          <SelectedWork source={source} />
-          <Services />
-          <PortfolioCTA source={source} />
-          <WorkWithMeCTA source={source} />
-          <footer className="connect-footer">© {new Date().getFullYear()} Divy Barot</footer>
-        </div>
+        <Introduction />
+        <SelectedWork source={source} />
+        <Services />
+        <PortfolioCTA source={source} />
+        <WorkWithMeCTA source={source} />
+        <footer className="connect-footer" data-connect="footer">
+          © {new Date().getFullYear()} Divy Barot
+        </footer>
       </div>
     </div>
   );
