@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="connectMarkFill" x1="8" y1="8" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#dc915a"/>
+      <stop offset="1" stop-color="#efc08d"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="80" height="80" rx="18" fill="url(#connectMarkFill)"/>
+  <path d="M30 22h14c11 0 19 8 19 18s-8 18-19 18H30V22zm8 8v20h6c6.6 0 11-4.3 11-10s-4.4-10-11-10H38z" fill="#191c21"/>
+</svg>
