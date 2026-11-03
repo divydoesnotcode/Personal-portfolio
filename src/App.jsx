@@ -3,13 +3,10 @@ import { useState, useEffect, lazy, Suspense } from 'react'
 import Lenis from 'lenis'
 
 // Keep these eager — they're above the fold
-import { NavbarDemo } from './components/ui/Navbar'
 import { SmoothCursorDemo } from './components/ui/SmoothCursor'
 import { ParallaxBackground } from './components/ui/ParallaxBackground'
 import { Preloader } from './components/ui/Preloader'
 import { Hero } from './components/Hero'
-import { WebcamPixelGridDemo } from './components/ui/webcamDemo'
-
 
 // Lazy load everything below the fold
 const Projects = lazy(() => import('./components/Projects').then(m => ({ default: m.Projects })))

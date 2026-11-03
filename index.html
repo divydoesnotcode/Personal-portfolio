@@ -3,6 +3,10 @@
 
 <head>
   <script>
+    if (!localStorage.getItem('theme_preference_v2')) {
+      localStorage.removeItem('theme');
+      localStorage.setItem('theme_preference_v2', 'beige');
+    }
     if (localStorage.getItem('theme') === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
@@ -82,7 +86,7 @@
   <!-- FIXED -->
   <link rel="manifest" href="/site.webmanifest" />
 
-  <meta name="theme-color" content="#0f172a" />
+  <meta name="theme-color" content="#F5F0E8" />
 
   <!-- ================= Performance ================= -->
 

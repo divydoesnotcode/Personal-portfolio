@@ -19,33 +19,33 @@
 
 /* ── Design Tokens ───────────────────────────────────────────── */
 :root {
-
     --font-display: "Fraunces", "Times New Roman", serif;
-
     --font-body: "Courier Prime", "Courier New", ui-monospace, monospace;
+    --accent: #B45309;
+    --accent-muted: rgba(180, 83, 9, 0.12);
+    --bg: #F5F0E8;
+    --bg-card: #EDE8DF;
+    --fg: #1A1610;
+    --fg-muted: #7A705E;
+    --surface: rgba(26, 22, 16, 0.04);
+    --border: rgba(26, 22, 16, 0.10);
+    --border-strong: rgba(26, 22, 16, 0.18);
+    --shadow-card: 0 2px 8px rgba(26, 22, 16, 0.07), 0 12px 32px rgba(26, 22, 16, 0.05);
+    --shadow-card-hover: 0 4px 16px rgba(26, 22, 16, 0.1), 0 24px 48px rgba(26, 22, 16, 0.08);
+}
 
+.dark {
     --accent: #D97706;
-
     --accent-muted: rgba(217, 119, 6, 0.15);
-
     --bg: #12100C;
-
     --bg-card: #1A1713;
-
     --fg: #F5F0E8;
-
     --fg-muted: #A8A092;
-
     --surface: rgba(245, 240, 232, 0.05);
-
     --border: rgba(245, 240, 232, 0.10);
-
     --border-strong: rgba(245, 240, 232, 0.18);
-
     --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
-
     --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.7);
-
 }
 
 /* ── Reset ───────────────────────────────────────────────────── */
